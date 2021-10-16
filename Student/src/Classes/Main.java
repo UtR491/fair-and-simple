@@ -1,3 +1,6 @@
+package Classes;
+
+import Controller.LoginController;
 import Request.Request;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,13 +16,14 @@ public class Main extends Application {
     Socket socket=null;
     static ObjectInputStream ois=null;
     static ObjectOutputStream oos=null;
+    public static String userRegistrationNumber;
 
     public static void main(String[] args) {
         launch(args);
     }
     @Override
     public void start(Stage primaryStage)  {
-        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("FXML/Login.fxml"));
+        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("../FXML/Login.fxml"));
         try {
             System.out.println("Creating a new connection");
             socket=new Socket("localhost",6969);
@@ -39,7 +43,7 @@ public class Main extends Application {
         }
         primaryStage.show();
     }
-    public static void SendRequest(Request request){
+    public static void sendRequest(Request request){
         try {
             oos.writeObject(request);
             oos.flush();
@@ -48,7 +52,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-    public static Object GetResponse(){
+    public static Object getResponse(){
         try {
             return ois.readObject();
         } catch (IOException | ClassNotFoundException e) {

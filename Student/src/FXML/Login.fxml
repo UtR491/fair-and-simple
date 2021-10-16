@@ -16,5 +16,4 @@
    </Label>
 
    <Hyperlink fx:id="signupLink" layoutX="149.0" layoutY="309.0" onAction="#switchToSignup" text="Don't have an account?" textFill="#0f0000" underline="true" />
-
 </AnchorPane>
