@@ -5,20 +5,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import main.GuiUtil;
-import main.TeacherApplication;
+import main.Main;
 import request.ExamsRequest;
 import response.Exam;
 import response.ExamsResponse;
 
-import java.io.IOException;
 import java.util.Date;
 
 public class ResultsController {
@@ -73,9 +70,9 @@ public class ResultsController {
         titleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         Platform.runLater(() -> {
-            ExamsRequest examsRequest = new ExamsRequest(TeacherApplication.getTeacherId(), true);
-            TeacherApplication.sendRequest(examsRequest);
-            ExamsResponse examsResponse = (ExamsResponse) TeacherApplication.receiveResponse();
+            ExamsRequest examsRequest = new ExamsRequest(Main.getTeacherId(), true);
+            Main.sendRequest(examsRequest);
+            ExamsResponse examsResponse = (ExamsResponse) Main.receiveResponse();
             System.out.println("Exams response = " + examsResponse);
             if(examsResponse == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -12,7 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import main.TeacherApplication;
+import main.Main;
 import request.CreateTeamRequest;
 import request.TeacherCoursesRequest;
 import response.Course;
@@ -111,9 +111,9 @@ public class TeacherHomeController {
         System.out.println("Values set");
         Platform.runLater(() -> {
             System.out.println("Inside courses request thread" + Thread.currentThread());
-            TeacherCoursesRequest request = new TeacherCoursesRequest(TeacherApplication.getTeacherId());
-            TeacherApplication.sendRequest(request);
-            TeacherCoursesResponse response = (TeacherCoursesResponse) TeacherApplication.receiveResponse();
+            TeacherCoursesRequest request = new TeacherCoursesRequest(Main.getTeacherId());
+            Main.sendRequest(request);
+            TeacherCoursesResponse response = (TeacherCoursesResponse) Main.receiveResponse();
             System.out.println("Fetched courses response");
             if(response == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fetch your courses. Click OK to exit the application");
@@ -135,9 +135,9 @@ public class TeacherHomeController {
             courseDescriptionTextArea.setEditable(false);
             createCourseButton.setDisable(true);
             Platform.runLater(() -> {
-                CreateTeamRequest request = new CreateTeamRequest(TeacherApplication.getTeacherId(), courseDescriptionTextArea.getText(), courseNameTextField.getText());
-                TeacherApplication.sendRequest(request);
-                CreateTeamResponse response = (CreateTeamResponse) TeacherApplication.receiveResponse();
+                CreateTeamRequest request = new CreateTeamRequest(Main.getTeacherId(), courseDescriptionTextArea.getText(), courseNameTextField.getText());
+                Main.sendRequest(request);
+                CreateTeamResponse response = (CreateTeamResponse) Main.receiveResponse();
                 System.out.println("Response = " + response);
                 if(response == null) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Could Not create a course. Please try again.");

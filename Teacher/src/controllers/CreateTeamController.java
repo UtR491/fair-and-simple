@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.InputMethodEvent;
 import javafx.stage.Stage;
 import main.GuiUtil;
-import main.TeacherApplication;
+import main.Main;
 import request.CreateTeamRequest;
 import response.CreateTeamResponse;
 
@@ -42,9 +42,9 @@ public class CreateTeamController {
             createTeamButton.setDisable(true);
             backButton.setDisable(true);
             Platform.runLater(() -> {
-                CreateTeamRequest request = new CreateTeamRequest(TeacherApplication.getTeacherId(), teamDescriptionTextArea.getText(), teamNameTextField.getText());
-                TeacherApplication.sendRequest(request);
-                CreateTeamResponse response = (CreateTeamResponse) TeacherApplication.receiveResponse();
+                CreateTeamRequest request = new CreateTeamRequest(Main.getTeacherId(), teamDescriptionTextArea.getText(), teamNameTextField.getText());
+                Main.sendRequest(request);
+                CreateTeamResponse response = (CreateTeamResponse) Main.receiveResponse();
                 System.out.println("Response = " + response);
                 if(response == null) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Could Not create a team. Please try again.");

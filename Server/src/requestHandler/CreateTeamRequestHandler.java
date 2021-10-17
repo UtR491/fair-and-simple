@@ -2,8 +2,6 @@ package requestHandler;
 
 import main.Server;
 import request.CreateTeamRequest;
-import request.TeacherCoursesRequest;
-import response.Course;
 import response.CreateTeamResponse;
 import table.CoursesTable;
 

@@ -1,6 +1,6 @@
 package request;
 
-import response.Question;
+import entity.Question;
 
 import java.util.Date;
 import java.util.List;
