@@ -37,7 +37,7 @@ public class RequestIdentifier implements Runnable{
                 System.out.println("Request received");
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace(); // basically the client disconnected so end this thread.
-                return;
+                break;
             }
             System.out.println("Request came");
             if(request==null) break;
@@ -61,15 +61,23 @@ public class RequestIdentifier implements Runnable{
             } else if(request instanceof TeacherCoursesRequest) {
                 TeacherCoursesRequestHandler handler = new TeacherCoursesRequestHandler(Server.getConnection(), oos, (TeacherCoursesRequest) request);
                 handler.sendResposne();
-            } else if(request instanceof CreateTeamRequest) {
-                System.out.println("Request is a create team request by teacher " + ((CreateTeamRequest) request).getTeacherId());
-                CreateTeamRequestHandler handler = new CreateTeamRequestHandler(Server.getConnection(), oos, (CreateTeamRequest) request);
+            } else if(request instanceof CreateCourseRequest) {
+                System.out.println("Request is a create team request by teacher " + ((CreateCourseRequest) request).getTeacherId());
+                CreateCourseRequestHandler handler = new CreateCourseRequestHandler(Server.getConnection(), oos, (CreateCourseRequest) request);
                 handler.sendResponse();
             } else if(request instanceof ExamResultRequest) {
                 ExamResultRequestHandler handler = new ExamResultRequestHandler(Server.getConnection(), oos, (ExamResultRequest) request);
                 handler.sendResponse();
             } else if(request instanceof SetExamRequest) {
                 SetExamRequestHandler handler = new SetExamRequestHandler(Server.getConnection(), oos, (SetExamRequest) request);
+                handler.sendResponse();
+            } else if(request instanceof TeacherExamRequest) {
+                TeacherExamRequestHandler handler = new TeacherExamRequestHandler(Server.getConnection(), oos, (TeacherExamRequest) request);
+                handler.sendResponse();
+            } else if(request instanceof LogOutRequest) {
+                break; // get out of the infinite loop.
+            } else if(request instanceof TeacherChangePasswordRequest) {
+                TeacherChangePasswordRequestHandler handler = new TeacherChangePasswordRequestHandler(Server.getConnection(), oos, (TeacherChangePasswordRequest) request);
                 handler.sendResponse();
             }
             else if(request instanceof JoinCourseRequest){
@@ -96,6 +104,10 @@ public class RequestIdentifier implements Runnable{
                 ExamsListRequestHandler examsListRequestHandler=new ExamsListRequestHandler(Server.getConnection(),oos,(ExamsListRequest)request);
                 examsListRequestHandler.sendResponse();
             }
+            else{
+                Server.sendResponse(oos, null);
+            }
         }
+        System.out.println("Client disconnected!!");
     }
 }

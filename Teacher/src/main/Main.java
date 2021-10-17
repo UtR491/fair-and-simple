@@ -69,9 +69,9 @@ public class Main extends Application {
 
     public static Response receiveResponse() {
         try {
-            Response response = (Response) inputStream.readObject();
-            System.out.println("Response is " + response);
-            return response;
+            Object obj=inputStream.readObject();
+            System.out.println("Response is " + obj);
+            return (Response) obj;
         } catch (Exception e) {
             e.printStackTrace();
         }

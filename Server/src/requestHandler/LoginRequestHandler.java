@@ -32,14 +32,14 @@ public class LoginRequestHandler extends RequestHandler {
             preparedStatement.setString(2,loginRequest.getPassword());
             ResultSet resultSet=preparedStatement.executeQuery();
             LoginResponse response=null;
-            do{
+            if(resultSet.next()){
                 response=new LoginResponse(resultSet.getString(StudentTable.COLUMN_FIRST_NAME),
                         resultSet.getString(StudentTable.COLUMN_LAST_NAME),resultSet.getString(StudentTable.COLUMN_EMAIL_ID),
                         resultSet.getInt(StudentTable.COLUMN_REGISTRATION_NUMBER));
                 preparedStatement=connection.prepareStatement(StudentTable.QUERY_UPDATE_LAST_ACTIVE);
                 preparedStatement.setString(1,loginRequest.getUsername());
                 preparedStatement.execute();
-            }while (resultSet.next());
+            }
             try {
                 oos.writeObject(response);
                 oos.flush();

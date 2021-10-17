@@ -157,21 +157,14 @@ public class CourseTabPaneController implements Initializable
     public void backResponse(ActionEvent e) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Parent root = (Parent) loader.load();
-        //TODO: load profile page here
+
     }
 
     public void refreshResponse(ActionEvent actionEvent) {
-    }
 
-    public void handleOnKeyPressed(KeyEvent keyEvent) {
-    }
-
-    public void clickItem(MouseEvent mouseEvent) {
-    }
-
-    public void sortResponse(ActionEvent actionEvent) {
     }
 
     public void sendButtonResponse(ActionEvent actionEvent) {
+        //TODO: send messages
     }
 }

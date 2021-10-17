@@ -1,20 +1,13 @@
 package controllers;
 
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import main.GuiUtil;
-import main.Main;
-import request.ExamsRequest;
-import response.Exam;
-import response.ExamsResponse;
+import entity.Exam;
 
 import java.util.Date;
 
@@ -67,23 +60,5 @@ public class ResultsController {
     }
 
     public void callFirst() {
-        titleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        Platform.runLater(() -> {
-            ExamsRequest examsRequest = new ExamsRequest(Main.getTeacherId(), true);
-            Main.sendRequest(examsRequest);
-            ExamsResponse examsResponse = (ExamsResponse) Main.receiveResponse();
-            System.out.println("Exams response = " + examsResponse);
-            if(examsResponse == null) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setContentText("Couldn't fetch the exams list. Might be a server error.");
-                alert.show();
-                GuiUtil.goToHome((Stage) backButton.getScene().getWindow());
-            } else {
-                ObservableList<Exam> examList = FXCollections.observableList(examsResponse.getExams());
-                examsTableView.setItems(examList);
-            }
-        });
     }
 }

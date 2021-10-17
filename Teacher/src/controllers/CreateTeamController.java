@@ -11,8 +11,9 @@ import javafx.scene.input.InputMethodEvent;
 import javafx.stage.Stage;
 import main.GuiUtil;
 import main.Main;
-import request.CreateTeamRequest;
-import response.CreateTeamResponse;
+import request.CreateCourseRequest;
+import response.CreateCourseResponse;
+
 
 public class CreateTeamController {
     @FXML
@@ -42,9 +43,9 @@ public class CreateTeamController {
             createTeamButton.setDisable(true);
             backButton.setDisable(true);
             Platform.runLater(() -> {
-                CreateTeamRequest request = new CreateTeamRequest(Main.getTeacherId(), teamDescriptionTextArea.getText(), teamNameTextField.getText());
+                CreateCourseRequest request = new CreateCourseRequest(Main.getTeacherId(), teamDescriptionTextArea.getText(), teamNameTextField.getText());
                 Main.sendRequest(request);
-                CreateTeamResponse response = (CreateTeamResponse) Main.receiveResponse();
+                CreateCourseResponse response = (CreateCourseResponse) Main.receiveResponse();
                 System.out.println("Response = " + response);
                 if(response == null) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Could Not create a team. Please try again.");
