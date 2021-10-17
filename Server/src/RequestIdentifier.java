@@ -19,6 +19,8 @@ public class RequestIdentifier implements Runnable{
     Socket socket;
     ObjectOutputStream oos=null;
     ObjectInputStream ois=null;
+    private  String userID;
+
     public RequestIdentifier(Socket socket){
         this.socket=socket;
         try {
@@ -35,7 +37,7 @@ public class RequestIdentifier implements Runnable{
             Object request=Server.ReceiveRequest(ois);
             if(request==null)break;
             else if(request instanceof LoginRequest){
-
+                userID=((LoginRequest) request).getUsername();
                 LoginRequestHandler loginRequestHandler=new LoginRequestHandler(oos,(LoginRequest)request,Server.getConnection());
                 try {
                     loginRequestHandler.sendResponse();
