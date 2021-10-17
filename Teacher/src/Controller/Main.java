@@ -1,6 +1,6 @@
 package Controller;
 
-import Request.Request;
+import request.Request;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,7 +21,7 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("../FXML/TeacherLogin.fxml"));
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("../views/TeacherLoginView.fxml"));
         System.out.println("Creating connection via socket");
         socket=new Socket("localhost",6969);
         System.out.println("Connection created now creating io streams");
