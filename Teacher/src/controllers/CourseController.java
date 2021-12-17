@@ -26,17 +26,13 @@ import entity.Question;
 import response.CourseStudentResponse;
 import response.SetExamResponse;
 import entity.Status;
-import sun.plugin.dom.html.HTMLBodyElement;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CourseController {
     @FXML
