@@ -29,7 +29,7 @@ public class JoinCourseRequestHandler extends RequestHandler {
     public void sendResponse()  {
         ResultSet resultSet = null;
         int result=0;
-        int courseId = -1;
+        int courseId = 0;
         try {
             PreparedStatement preparedStatement=connection.prepareStatement(CoursesTable.GET_COURSE_ID_BY_COURSE_CODE);
             preparedStatement.setString(1,joinCourseRequest.getCourseCode());

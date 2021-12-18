@@ -20,6 +20,7 @@ public class TeacherTable {
     public static final String CHANGE_PASSWORD_QUERY = "UPDATE " + TABLE_NAME
             + " SET " + COLUMN_PASSWORD + " = ? "
             + " WHERE " + COLUMN_TEACHER_ID + " = ?;";
+    public static final String GET_TEACHER_NAME_BY_ID="SELECT "+COLUMN_FIRST_NAME+","+COLUMN_LAST_NAME+" FROM "+TABLE_NAME+" WHERE "+ COLUMN_TEACHER_ID+" =?;";
     public static final String CHANGE_PROFILE_PIC_QUERY = "UPDATE "+ TABLE_NAME
             + " SET " + COLUMN_PROFILE_PIC + " = ? "
             + " WHERE " + COLUMN_TEACHER_ID + " = ?;";
