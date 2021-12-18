@@ -150,10 +150,6 @@ public class RequestIdentifier implements Runnable{
                 GetTeacherProfilePicRequestHandler getTeacherProfilePicRequestHandler = new GetTeacherProfilePicRequestHandler(Server.getConnection(), oos, (GetTeacherProfilePicRequest) request);
                 getTeacherProfilePicRequestHandler.sendResponse();
             }
-            else if(request instanceof CourseStudentRequest) {
-                CourseStudentRequestHandler courseStudentRequestHandler = new CourseStudentRequestHandler(Server.getConnection(), oos, (CourseStudentRequest) request);
-                courseStudentRequestHandler.sendResponse();
-            }
             else{
                 Server.sendResponse(oos, null);
             }
