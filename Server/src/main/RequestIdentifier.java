@@ -111,6 +111,17 @@ public class RequestIdentifier implements Runnable{
                 CourseStudentRequestHandler courseStudentRequestHandler = new CourseStudentRequestHandler(Server.getConnection(), oos, (CourseStudentRequest) request);
                 courseStudentRequestHandler.sendResponse();
             }
+            else if(request instanceof TeacherChangeProfilePictureRequest) {
+                TeacherChangeProfilePictureRequestHandler teacherChangeProfilePictureRequestHandler = new TeacherChangeProfilePictureRequestHandler(Server.getConnection(), oos, (TeacherChangeProfilePictureRequest) request);
+                teacherChangeProfilePictureRequestHandler.sendResponse();
+            }
+            else if(request instanceof AttemptExamRequest) {
+                AttemptExamRequestHandler requestHandler = new AttemptExamRequestHandler(Server.getConnection(), oos, (AttemptExamRequest) request);
+                requestHandler.sendResponse();
+            }
+            else if(request instanceof SubmitExamRequest) {
+                SubmitExamRequestHandler requestHandler = new SubmitExamRequestHandler(Server.getConnection(), oos, (SubmitExamRequest) request);
+            }
             else{
                 Server.sendResponse(oos, null);
             }

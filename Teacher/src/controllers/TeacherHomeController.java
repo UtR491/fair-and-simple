@@ -13,12 +13,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.GuiUtil;
 import main.Main;
 import request.*;
 import response.*;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,8 +87,11 @@ public class TeacherHomeController {
     public PasswordField newPasswordTextField;
     @FXML
     public PasswordField confirmNewPasswordTextField;
+    @FXML
+    public Button selectImageButton;
 
     private TeacherExamResponse teacherExamResponse;
+    private File selectedFile;
 
     @FXML
     public void createExamResponse(ActionEvent actionEvent) {
@@ -267,9 +273,24 @@ public class TeacherHomeController {
     }
 
     public void selectImageButtonResponse(ActionEvent actionEvent) {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("image files","*.png","*.jpg","*.jpeg"));
+        selectedFile = fc.showOpenDialog(null);
+        selectImageButton.setText(selectedFile.getName());
     }
 
     public void confirmPicChangeButtonResponse(ActionEvent actionEvent) {
+        if(selectedFile == null) {
+            GuiUtil.alert(Alert.AlertType.ERROR, "Select a picture first.");
+            return;
+        }
+        TeacherChangeProfilePictureRequest request = new TeacherChangeProfilePictureRequest(selectedFile);
+        Main.sendRequest(request);
+        TeacherChangeProfilePictureResponse response = (TeacherChangeProfilePictureResponse) Main.receiveResponse();
+        if(response.isSuccess())
+            GuiUtil.alert(Alert.AlertType.INFORMATION, "Profile changed successfully!");
+        else
+            GuiUtil.alert(Alert.AlertType.ERROR, "Could not change the profile picture.");
     }
 
     public void refreshButtonResponse(ActionEvent actionEvent) {
