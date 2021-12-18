@@ -3,6 +3,7 @@ package entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+
 public class Exam implements Serializable {
     private final String examId;
     private final String teacherId;
@@ -24,6 +25,7 @@ public class Exam implements Serializable {
         this.description = description;
         this.date = date;
         this.endTime = endTime;
+
         this.maxMarks = maxMarks;
     }
 
