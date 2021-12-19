@@ -46,12 +46,14 @@ public class SetExamRequestHandler {
             setExam.setObject(7, request.getEndTime());
             int result = setExam.executeUpdate();
             if(result == 0) {
+                System.out.println("Returning from here 1111111");
                 Server.sendResponse(oos, new SetExamResponse(Status.OTHER));
                 return;
             }
 
             String examId = getExamId();
             if(examId == null) {
+                System.out.println("Returning from here 2222222");
                 Server.sendResponse(oos, new SetExamResponse(Status.OTHER));
                 return;
             }
@@ -68,6 +70,7 @@ public class SetExamRequestHandler {
                 int questionAdded = addQuestions.executeUpdate();
                 if(questionAdded == 0) {
                     deleteExamByID(examId);
+                    System.out.println("Returning from here 3333333");
                     Server.sendResponse(oos, new SetExamResponse(Status.OTHER));
                     return;
                 }
@@ -75,6 +78,7 @@ public class SetExamRequestHandler {
             Server.sendResponse(oos, new SetExamResponse(Status.EXAM_CREATED));
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Returning from here 4444444");
             Server.sendResponse(oos, new SetExamResponse(Status.OTHER));
         }
     }
