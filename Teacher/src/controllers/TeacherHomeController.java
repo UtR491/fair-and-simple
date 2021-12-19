@@ -22,13 +22,11 @@ import main.Main;
 import request.*;
 import response.*;
 import sun.awt.image.ToolkitImage;
-
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -100,7 +98,9 @@ public class TeacherHomeController {
     public Button confirmPicChangeButton;
     @FXML
     public ImageView changeProfilePicImageView;
+
     private TeacherExamResponse teacherExamResponse;
+    private File selectedFile;
 
     @FXML
     public void createExamResponse(ActionEvent actionEvent) {
@@ -326,6 +326,7 @@ public class TeacherHomeController {
         profilePicImageView.setImage(image);
         changeProfilePicImageView.setImage(image);
     }
+
     public void refreshButtonResponse(ActionEvent actionEvent) {
         callFirst();
     }
