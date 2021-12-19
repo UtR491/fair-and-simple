@@ -38,12 +38,13 @@ public class SetExamRequestHandler {
 
             PreparedStatement setExam = connection.prepareStatement(ExamTable.ADD_EXAM_DETAILS);
             setExam.setString(1, request.getCourseId());
-            setExam.setString(2, request.getTeacherId());
+            setExam.setInt(2, request.getProctorId());
             setExam.setString(3, request.getExamTitle());
             setExam.setString(4, request.getDescription());
             setExam.setString(5, String.valueOf(request.getQuestions().size()));
             setExam.setObject(6, request.getStartTime());
             setExam.setObject(7, request.getEndTime());
+            setExam.setString(8, request.getTeacherId());
             int result = setExam.executeUpdate();
             if(result == 0) {
                 System.out.println("Returning from here 1111111");
