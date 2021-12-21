@@ -24,7 +24,7 @@ public class RegisterRequestHandler extends requestHandler.RequestHandler {
     @Override
     public void sendResponse() {
         PreparedStatement preparedStatement;
-        File file=new File("..\\images\\sample.png");
+        File file=new File("src/images/sample.png");
         FileInputStream fis;
         int result = 0;
         try {
@@ -36,6 +36,8 @@ public class RegisterRequestHandler extends requestHandler.RequestHandler {
             preparedStatement.setString(5,registerRequest.getPassword());
             fis=new FileInputStream(file);
             preparedStatement.setBinaryStream(6,fis);
+            System.out.println("Query register = " + StudentTable.QUERY_REGISTER);
+            System.out.println(preparedStatement.toString());
             result=preparedStatement.executeUpdate();
         } catch (SQLException | FileNotFoundException e) {
             e.printStackTrace();
