@@ -370,6 +370,7 @@ public class TeacherHomeController {
     }
 
     public void onExamToProctorClick(MouseEvent mouseEvent) {
+        System.out.println("Yoyo");
         if(mouseEvent.getClickCount() == 2) {
             Exam exam = proctoringDutyExamsTableView.getSelectionModel().getSelectedItem();
             Timestamp startTime = exam.getDate();

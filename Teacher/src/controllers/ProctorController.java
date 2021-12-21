@@ -1,11 +1,14 @@
 package controllers;
 
 import entity.Student;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -36,6 +39,9 @@ public class ProctorController {
     private Queue<Integer> studentsOnDisplay = null;
     private Map<Integer, ImageView> registrationNumberImageWindowMap = null;
 
+    // 3  4  5  1
+    // tl tr bl br
+
     public void callFirst(DatagramSocket videoFeedSocket, List<Student> students) {
 
         getVideoFeedSocket = videoFeedSocket;
@@ -51,25 +57,24 @@ public class ProctorController {
             }
         });
         studentsOnDisplay = new LinkedList<>();
+        registrationNumberImageWindowMap = new HashMap<>();
+        allStudentsListView.setItems(FXCollections.observableList(students));
         allStudentsListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 if(event.getClickCount() == 2) {
-                    boolean alreadyOnDisplay = false;
-                    for(Integer s : studentsOnDisplay) {
-                        if(allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber() == s) {
-                            alreadyOnDisplay = true;
-                            break;
-                        }
-                    }
-                    if(!alreadyOnDisplay) {
+                    System.out.println("We want to see the video of student = " + allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber());
+                    if(!studentsOnDisplay.contains(allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber())) {
                         if(studentsOnDisplay.size() == 4) {
+                            System.out.println("Replace");
                             replaceStudent(allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber(),
                                     studentsOnDisplay.poll());
                         } else {
+                            System.out.println("Add");
                             registrationNumberImageWindowMap.put(
                                     allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber(),
                                     imageViewHolder.get(studentsOnDisplay.size()));
+                            studentsOnDisplay.add(allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber());
                         }
                     }
                 }
@@ -88,13 +93,16 @@ public class ProctorController {
             @Override
             public void run() {
                 while(true) {
+//                    System.out.println("Waiting for video");
                     Object[] data = (Object[]) UdpUtil.getObjectFromPort(videoFeedSocket);
                     String registrationNumber = (String) UdpUtil.byteArrayToObject((byte[]) data[0]);
+                    System.out.println("Got video of registraion no = " + registrationNumber);
                     BufferedImage image = UdpUtil.byteArrayToBufferedImage((byte[]) data[1]);
                     if(image != null && registrationNumber != null) {
                         if(studentsOnDisplay.contains(Integer.valueOf(registrationNumber))) {
-                            registrationNumberImageWindowMap.get(Integer.valueOf(registrationNumber))
-                                    .setImage(SwingFXUtils.toFXImage(image, null));
+                            ImageView view = registrationNumberImageWindowMap.get(Integer.valueOf(registrationNumber));
+                            view.setImage(SwingFXUtils.toFXImage(image, null));
+                            view.setPreserveRatio(true);
                         }
                     }
                 }
