@@ -231,7 +231,19 @@ public class CourseTabPaneController implements Initializable
         profileScreenController.first(name);
     }
 
-    public void onExamClicked(MouseEvent mouseEvent) {
+    public void backFromExamsScheduleButtonResponse(ActionEvent actionEvent) {
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
+        Scene scene = null;
+        try {
+            scene=new Scene(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage= (Stage) backFromExamsScheduleButton.getScene().getWindow();
+        stage.setTitle("Profile");
+        stage.setScene(scene);
+        ProfileScreenController profileScreenController=loader.getController();
+        profileScreenController.first(name);
     }
 
     public void backfromCourseInfoButtonResponse(ActionEvent actionEvent) {
@@ -249,21 +261,6 @@ public class CourseTabPaneController implements Initializable
         profileScreenController.first(name);
     }
     public void handleOnKeyPressed(KeyEvent keyEvent) {
-    }
-
-    public void backFromExamsScheduleButtonResponse(ActionEvent actionEvent) {
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
-        Scene scene = null;
-        try {
-            scene=new Scene(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage stage= (Stage) backFromExamsScheduleButton.getScene().getWindow();
-        stage.setTitle("Profile");
-        stage.setScene(scene);
-        ProfileScreenController profileScreenController=loader.getController();
-        profileScreenController.first(name);
     }
 
     public void sortResponse(ActionEvent actionEvent) {
