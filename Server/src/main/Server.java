@@ -44,7 +44,7 @@ public class Server {
         if(connection!=null)return connection;
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url="jdbc:mysql://localhost:3306/fairnsimple2";
+            String url="jdbc:mysql://localhost:3306/fairnsimple";
             connection= DriverManager.getConnection(url,"utkarsh","Hello@123");
             System.out.println("Database connected!!");
         } catch (ClassNotFoundException | SQLException e) {

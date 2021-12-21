@@ -59,8 +59,7 @@ public class NewQuestionController {
         if(selectedToggle.getText().equals("B")) ans = 2;
         else if(selectedToggle.getText().equals("C")) ans = 3;
         else if(selectedToggle.getText().equals("D")) ans = 4;
-        Main.tempHolder = new Question(
-                "", // questionID is set server-side.
+        Main.tempHolder = new Question("", //Question ID can't be given here
                 questionTextArea.getText(),
                 optionATextField.getText(),
                 optionBTextField.getText(),

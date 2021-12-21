@@ -229,10 +229,6 @@ public class CourseTabPaneController implements Initializable
     public void handleOnKeyPressed(KeyEvent keyEvent) {
     }
 
-    public void clickItem(MouseEvent mouseEvent) {
-    }
-
     public void sortResponse(ActionEvent actionEvent) {
     }
-
 }
