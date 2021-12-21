@@ -1,5 +1,6 @@
 package main;
 
+import entity.Message;
 import request.*;
 import requestHandler.*;
 
@@ -107,6 +108,21 @@ public class RequestIdentifier implements Runnable{
                 ExamsListRequestHandler examsListRequestHandler=new ExamsListRequestHandler(Server.getConnection(),oos,(ExamsListRequest)request);
                 examsListRequestHandler.sendResponse();
             }
+            else if(request instanceof CourseStudentRequest) {
+                CourseStudentRequestHandler courseStudentRequestHandler = new CourseStudentRequestHandler(Server.getConnection(), oos, (CourseStudentRequest) request);
+                courseStudentRequestHandler.sendResponse();
+            }
+            else if(request instanceof TeacherChangeProfilePictureRequest) {
+                TeacherChangeProfilePictureRequestHandler teacherChangeProfilePictureRequestHandler = new TeacherChangeProfilePictureRequestHandler(Server.getConnection(), oos, (TeacherChangeProfilePictureRequest) request);
+                teacherChangeProfilePictureRequestHandler.sendResponse();
+            }
+            else if(request instanceof AttemptExamRequest) {
+                AttemptExamRequestHandler requestHandler = new AttemptExamRequestHandler(Server.getConnection(), oos, (AttemptExamRequest) request);
+                requestHandler.sendResponse();
+            }
+            else if(request instanceof SubmitExamRequest) {
+                SubmitExamRequestHandler requestHandler = new SubmitExamRequestHandler(Server.getConnection(), oos, (SubmitExamRequest) request);
+            }
             else if (request instanceof CourseDetailsRequest){
                 CourseDetailsRequestHandler courseDetailsRequestHandler=new CourseDetailsRequestHandler(Server.getConnection(),oos,(CourseDetailsRequest)request);
                 courseDetailsRequestHandler.sendResponse();
@@ -135,9 +151,10 @@ public class RequestIdentifier implements Runnable{
                 GetTeacherProfilePicRequestHandler getTeacherProfilePicRequestHandler = new GetTeacherProfilePicRequestHandler(Server.getConnection(), oos, (GetTeacherProfilePicRequest) request);
                 getTeacherProfilePicRequestHandler.sendResponse();
             }
-            else if(request instanceof CourseStudentRequest) {
-                CourseStudentRequestHandler courseStudentRequestHandler = new CourseStudentRequestHandler(Server.getConnection(), oos, (CourseStudentRequest) request);
-                courseStudentRequestHandler.sendResponse();
+            else if(request instanceof Message){
+                SendMessageRequestHandler sendMessageRequestHandler=new SendMessageRequestHandler(Server.getConnection(),oos,(Message)request);
+                sendMessageRequestHandler.sendResponse();
+                sendMessageRequestHandler.sendToAll();// send the message to every connected person
             }
             else{
                 Server.sendResponse(oos, null);

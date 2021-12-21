@@ -25,7 +25,7 @@
                                                 <Font name="System Italic" size="17.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="courseNameLabel" prefHeight="26.0" prefWidth="552.0" text="Intro 101">
+                                          <Label fx:id="courseNameLabel" prefHeight="26.0" prefWidth="552.0">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
@@ -55,7 +55,7 @@
                                                             <Font name="System Italic" size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="courseCodeLabel" prefHeight="27.0" prefWidth="182.0" text="ax6789sd">
+                                                      <Label fx:id="courseCodeLabel" prefHeight="27.0" prefWidth="182.0">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -78,7 +78,7 @@
                                                             <Font name="System Italic" size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <Text fx:id="aboutCourseLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="This is example about. This is example about. This is example about. This is example about. This is example about. This is example about. This is example about." wrappingWidth="379.7367172241211">
+                                                      <Text fx:id="aboutCourseLabel" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="379.7367172241211">
                                                          <font>
                                                             <Font name="System Italic" size="15.0" />
                                                          </font>
@@ -95,7 +95,7 @@
                                                             <Font name="System Italic" size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="professorLabel" prefHeight="21.0" prefWidth="279.0" text="DNK">
+                                                      <Label fx:id="professorLabel" prefHeight="21.0" prefWidth="279.0">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -116,13 +116,8 @@
                                                       <ComboBox fx:id="participantsSearchComboBox1" editable="true" onKeyReleased="#handleOnKeyPressed" prefHeight="26.0" prefWidth="548.0" promptText="Search for participants" />
                                                       <TableView fx:id="participantsTableView" prefHeight="510.0" prefWidth="272.0">
                                                          <columns>
-<<<<<<< HEAD
                                                             <TableColumn fx:id="nameTableColumn" prefWidth="273.9999809265137" text="Name" />
                                                             <TableColumn fx:id="registrationNumberTableColumn" prefWidth="275.3333740234375" text="Registration Number" />
-=======
-                                                            <TableColumn fx:id="nameTableColumn" prefWidth="103.99996644258499" text="Title" />
-                                                            <TableColumn fx:id="registrationNumberTableColumn" prefWidth="81.5999755859375" text="Time" />
->>>>>>> 1b53e4842c54504540b432792a0702d1a73cf878
                                                          </columns>
                                                       </TableView>
                                                    </children>
@@ -193,7 +188,7 @@
                                  </HBox>
                                  <HBox prefHeight="573.0" prefWidth="590.0" spacing="5.0">
                                     <children>
-                                       <TableView fx:id="examsTableView" prefHeight="510.0" prefWidth="272.0">
+                                       <TableView fx:id="examsTableView" onMouseClicked="#onExamClicked" prefHeight="510.0" prefWidth="272.0">
                                           <columns>
                                              <TableColumn fx:id="titleTableColumn" prefWidth="103.99996644258499" text="Title" />
                                              <TableColumn fx:id="timeTableColumn" prefWidth="81.5999755859375" text="Time" />
@@ -201,7 +196,7 @@
                                        </TableView>
                                        <VBox alignment="TOP_CENTER" prefHeight="500.0" prefWidth="395.0" spacing="10.0">
                                           <children>
-                                             <Label fx:id="examTitleLabel" text="Example Title">
+                                             <Label fx:id="examTitleLabel">
                                                    <font>
                                                       <Font size="24.0" />
                                                    </font>
@@ -211,7 +206,7 @@
                                                       <Font name="System Italic" size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <Text fx:id="instructionsText" strokeType="OUTSIDE" strokeWidth="0.0" text="This is example description. This is example description. This is example description. This is example description. This is example description. This is example description. This is example description. This is example description. This is example description. " wrappingWidth="379.7367172241211">
+                                                <Text fx:id="instructionsText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="379.7367172241211">
                                                    <font>
                                                       <Font name="System Italic" size="15.0" />
                                                    </font>
@@ -226,7 +221,7 @@
                                                             <Font name="System Italic" size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="startTimeLabel" prefHeight="27.0" prefWidth="182.0" text="29-10-2021 11:30AM">
+                                                      <Label fx:id="startTimeLabel" prefHeight="27.0" prefWidth="182.0">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -246,7 +241,7 @@
                                                             <Font name="System Italic" size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="durationLabel" prefHeight="18.0" prefWidth="72.0" text="90 mins">
+                                                      <Label fx:id="durationLabel" prefHeight="18.0" prefWidth="72.0">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -266,7 +261,7 @@
                                                             <Font name="System Italic" size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="maxMarksLabel" prefHeight="18.0" prefWidth="72.0" text="30">
+                                                      <Label fx:id="maxMarksLabel" prefHeight="18.0" prefWidth="72.0">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -298,7 +293,7 @@
                         </BorderPane>
                      </content>
                   </Tab>
-                  <Tab closable="false" text="Discussion Forum">
+                  <Tab fx:id="discussionForumTab" closable="false" onSelectionChanged="#onChatClicked" text="Discussion Forum">
                     <content>
                         <BorderPane>
                            <center>

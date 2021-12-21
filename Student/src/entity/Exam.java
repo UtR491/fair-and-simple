@@ -25,7 +25,6 @@ public class Exam implements Serializable {
         this.description = description;
         this.date = date;
         this.endTime = endTime;
-
         this.maxMarks = maxMarks;
     }
 

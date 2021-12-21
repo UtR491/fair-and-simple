@@ -1,7 +1,7 @@
 package response;
 
 public class TeacherLoginResponse extends Response {
-  private String firstName,lastName,emailID,teacherID;
+    private String firstName,lastName,emailID,teacherID;
 
     public TeacherLoginResponse(String firstName, String lastName, String emailID, String teacherID) {
         this.firstName = firstName;

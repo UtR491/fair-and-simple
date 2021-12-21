@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import util.ChatUtil;
 
 
 import java.io.IOException;
@@ -14,8 +15,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Main extends Application {
-    Socket socket=null;
-    static ObjectInputStream ois=null;
+    public static Socket socket=null,chatSocket=null;
+    public static ObjectInputStream ois=null;
     static ObjectOutputStream oos=null;
     public static String userRegistrationNumber;
 
@@ -28,9 +29,13 @@ public class Main extends Application {
         try {
             System.out.println("Creating a new connection");
             socket=new Socket("localhost",6969);
+            System.out.println(socket);
             ois=new ObjectInputStream(socket.getInputStream());
             oos=new ObjectOutputStream(socket.getOutputStream());
+
             System.out.println("Connection established and io streams created");
+
+            System.out.println(Thread.currentThread());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,6 +60,7 @@ public class Main extends Application {
     }
     public static Object getResponse(){
         try {
+            System.out.println("response is sent on Main method");
             return ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
