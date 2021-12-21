@@ -1,14 +1,13 @@
 package controller;
 
-import entity.Course;
-import entity.Exam;
-import entity.Main;
+import entity.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,6 +27,9 @@ import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.Time;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ProfileScreenController implements Initializable
@@ -256,7 +258,7 @@ public class ProfileScreenController implements Initializable
                 new PropertyValueFactory<Exam, String>("title")
         );
         upcomingTimeTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Exam, Time>("startTime")
+                new PropertyValueFactory<Exam, Time>("date")
         );
         upcomingMaxMarksTableColumn.setCellValueFactory(
                 new PropertyValueFactory<Exam, Integer>("maxMarks")
@@ -357,6 +359,48 @@ public class ProfileScreenController implements Initializable
         setUpcomingExamsList();
         setExamsHistoryTableView();
         setProfilePic();
+    }
+
+    public void onExamClicked(MouseEvent mouseEvent) {
+        if(mouseEvent.getClickCount() == 2)
+        {
+            Exam exam = (Exam)upcomingExamsTableView.getSelectionModel().getSelectedItem();
+            if(exam.getDate().getTime() - (new Date()).getTime() > 0)
+            {
+                GuiUtil.alert(Alert.AlertType.WARNING,"Exam hasn't started yet!");
+            }
+            else
+            {
+                GetQuestionsResponse response = getData(exam);
+                if(response.getProctorPort() == -1) {
+                    GuiUtil.alert(Alert.AlertType.ERROR, "Exam will start only after the proctor joins!");
+                    return;
+                }
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/QuestionsScreenFXML.fxml"));
+                Stage currentStage=(Stage)heyNameLabel.getScene().getWindow();
+                Scene scene=null;
+
+                try {
+                    scene=new Scene(fxmlLoader.load());
+                    QuestionsScreenController questionsScreenController= fxmlLoader.getController();
+                    questionsScreenController.setQuiz(exam);
+                    questionsScreenController.setData(response.getProctorPort(), response.getQuestionsList());
+                    currentStage.setScene(scene);
+                    currentStage.setTitle(exam.getTitle());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private GetQuestionsResponse getData(Exam exam) {
+        if (exam != null) {
+            GetQuestionsRequest getQuestionsRequest = new GetQuestionsRequest(exam.getExamId());
+            Main.sendRequest(getQuestionsRequest);
+            return (GetQuestionsResponse) Main.getResponse();
+        }
+        return null;
     }
 }
 

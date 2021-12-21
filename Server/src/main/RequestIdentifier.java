@@ -122,6 +122,7 @@ public class RequestIdentifier implements Runnable{
             }
             else if(request instanceof SubmitExamRequest) {
                 SubmitExamRequestHandler requestHandler = new SubmitExamRequestHandler(Server.getConnection(), oos, (SubmitExamRequest) request);
+                requestHandler.sendResponse();
             }
             else if (request instanceof CourseDetailsRequest){
                 CourseDetailsRequestHandler courseDetailsRequestHandler=new CourseDetailsRequestHandler(Server.getConnection(),oos,(CourseDetailsRequest)request);
@@ -151,10 +152,22 @@ public class RequestIdentifier implements Runnable{
                 GetTeacherProfilePicRequestHandler getTeacherProfilePicRequestHandler = new GetTeacherProfilePicRequestHandler(Server.getConnection(), oos, (GetTeacherProfilePicRequest) request);
                 getTeacherProfilePicRequestHandler.sendResponse();
             }
-            else if(request instanceof Message){
-                SendMessageRequestHandler sendMessageRequestHandler=new SendMessageRequestHandler(Server.getConnection(),oos,(Message)request);
+            else if(request instanceof Message) {
+                SendMessageRequestHandler sendMessageRequestHandler = new SendMessageRequestHandler(Server.getConnection(), oos, (Message) request);
                 sendMessageRequestHandler.sendResponse();
                 sendMessageRequestHandler.sendToAll();// send the message to every connected person
+            }
+            else if(request instanceof ProctoringDutyRequest) {
+                ProctoringDutyRequestHandler requestHandler = new ProctoringDutyRequestHandler(Server.getConnection(), oos, (ProctoringDutyRequest) request);
+                requestHandler.sendResponse();
+            }
+            else if(request instanceof GetQuestionsRequest) {
+                GetQuestionsRequestHandler getQuestionsRequestHandler = new GetQuestionsRequestHandler(Server.getConnection(),oos,(GetQuestionsRequest) request);
+                getQuestionsRequestHandler.sendResponse();
+            }
+            else if(request instanceof ProctoringRequest) {
+                ProctoringRequestHandler requestHandler = new ProctoringRequestHandler(Server.getConnection(), oos, (ProctoringRequest) request);
+                requestHandler.sendResponse();
             }
             else{
                 Server.sendResponse(oos, null);

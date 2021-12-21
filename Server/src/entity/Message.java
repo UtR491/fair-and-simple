@@ -26,16 +26,16 @@ public class Message extends Request implements Serializable {
         this.isStudent = isStudent;
     }
 
-    public String getCourseID() {
-        return courseID;
-    }
-
     public String getSenderName() {
         return senderName;
     }
 
     public void setSenderName(String senderName) {
         this.senderName = senderName;
+    }
+
+    public String getCourseID() {
+        return courseID;
     }
 
     public void setCourseID(String courseID) {

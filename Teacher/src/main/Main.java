@@ -30,15 +30,15 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("../views/TeacherLoginView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 600, 593);
+            Scene scene = new Scene(fxmlLoader.load(), 590, 600);
 //            primaryStage.initStyle(StageStyle.UNDECORATED);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Teacher Login");
-            primaryStage.setMinHeight(590);
-            primaryStage.setMinWidth(600);
+            primaryStage.setMinHeight(600);
+            primaryStage.setMinWidth(590);
 //            primaryStage.setAlwaysOnTop(true);
 //            primaryStage.setMaximized(true);
 //            primaryStage.resizableProperty().setValue(Boolean.FALSE);

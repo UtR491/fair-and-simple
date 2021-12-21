@@ -1,29 +1,31 @@
 package request;
 
-import entity.Question;
+import entity.Exam;
 
-import java.util.List;
+import java.io.Serializable;
 
-public class SubmitExamRequest extends Request {
-    private final List<Question> questions;
-    private final String examId;
-    private final String courseId;
+public class SubmitExamRequest extends Request implements Serializable {
+    private Exam exam;
+    private Integer numberOfRightAnswers;
 
-    public SubmitExamRequest(List<Question> questions, String examId, String courseId) {
-        this.questions = questions;
-        this.examId = examId;
-        this.courseId = courseId;
+    public SubmitExamRequest(Exam exam, Integer numberOfRightAnswers) {
+        this.exam = exam;
+        this.numberOfRightAnswers = numberOfRightAnswers;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
+    public Exam getExam() {
+        return exam;
     }
 
-    public String getExamId() {
-        return examId;
+    public void setExam(Exam exam) {
+        this.exam = exam;
     }
 
-    public String getCourseId() {
-        return courseId;
+    public Integer getNumberOfRightAnswers() {
+        return numberOfRightAnswers;
+    }
+
+    public void setNumberOfRightAnswers(Integer numberOfRightAnswers) {
+        this.numberOfRightAnswers = numberOfRightAnswers;
     }
 }

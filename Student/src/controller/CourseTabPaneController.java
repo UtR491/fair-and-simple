@@ -8,14 +8,19 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.controlsfx.control.Notifications;
 import request.*;
 import response.*;
 import entity.*;
@@ -27,6 +32,8 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.ArrayList;
+
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -79,6 +86,8 @@ public class CourseTabPaneController implements Initializable
     @FXML
     private Button sendButton;
     @FXML
+    private VBox chatContainer;
+    @FXML
     private TableColumn titleTableColumn;
     @FXML
     private TableColumn timeTableColumn;
@@ -88,6 +97,8 @@ public class CourseTabPaneController implements Initializable
     private TableColumn nameTableColumn;
     @FXML
     private TableColumn registrationNumberTableColumn;
+    @FXML
+    private ScrollPane chatScrollPane;
 
     public ObservableList<Exam> observableExamsList;
     public ObservableList<Student> observableParticipantsList;
@@ -105,7 +116,7 @@ public class CourseTabPaneController implements Initializable
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        chatScrollPane.vvalueProperty().bind(chatContainer.heightProperty());
     }
     public void first(String courseId,String name) throws InterruptedException {
         this.courseId = courseId;
@@ -201,6 +212,28 @@ public class CourseTabPaneController implements Initializable
     }
 
     public void refreshDiscussionForumButtonResponse(ActionEvent actionEvent) {
+        ArrayList <Message> messages = new ArrayList<>();
+        messages.add(new Message("1","Saurabh","1","I am Saurabh.",null,new Timestamp((new Date()).getTime()),true));
+        for(Message message : messages) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleChatCardFXML.fxml"));
+            try {
+                Node node = fxmlLoader.load();
+                SingleChatCardFXMLController singleChatCardFXMLController = fxmlLoader.getController();
+                singleChatCardFXMLController.messageLabel.setText(message.getText());
+                singleChatCardFXMLController.nameLabel.setText(message.getSenderName());
+                singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
+                singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web("#bee2f7"),
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY)));
+                chatContainer.getChildren().add(node);
+                Notifications.create()
+                        .title("Message received!")
+                        .text("Message has been received!")
+                        .showInformation();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void backFromDiscussionForumButtonResponse(ActionEvent actionEvent) {
@@ -270,7 +303,7 @@ public class CourseTabPaneController implements Initializable
     }
 
     public void onChatClicked(Event event) {
-           System.out.println("Inside on chat clicked method");
+        System.out.println("Inside on chat clicked method");
 //        ArrayList<Message>senderMessages,otherMessages;
 //        Main.sendRequest(new DisplayMessagesRequest(courseId));
 //        System.out.println("Display Message Request Sent");
@@ -280,8 +313,6 @@ public class CourseTabPaneController implements Initializable
 //        senderMessages=displayMessagesResponse.getSenderMessages();
 //        otherMessages=displayMessagesResponse.getOtherMessages();
 //        //TODO: display the messages
-
-
     }
 
 }
