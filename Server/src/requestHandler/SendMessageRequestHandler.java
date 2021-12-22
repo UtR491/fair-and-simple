@@ -28,14 +28,14 @@ public class SendMessageRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         PreparedStatement preparedStatement;
         InputStream is=null;
         BufferedImage bufferedImage;
         ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
         try {
             preparedStatement=connection.prepareStatement(MessageTable.ADD_MESSAGE_QUERY);
-            preparedStatement.setString(1, RequestIdentifier.userID);
+            preparedStatement.setString(1, userID);
             preparedStatement.setString(2,message.getCourseID());
             preparedStatement.setString(3,message.getText());
 
