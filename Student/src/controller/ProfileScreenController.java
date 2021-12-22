@@ -57,11 +57,12 @@ public class ProfileScreenController implements Initializable
         System.out.println("Image input stream received "+getProfilePicResponse);
         BufferedImage bufferedImage;
         Image image;
-        assert getProfilePicResponse != null;
-        bufferedImage=  ((ToolkitImage)getProfilePicResponse.getImageIcon().getImage()).getBufferedImage();
-        image = SwingFXUtils.toFXImage(bufferedImage, null);
-        profilePicImageView.setImage(image);
-        changeProfilePicImageView.setImage(image);
+        if(getProfilePicResponse != null) {
+            bufferedImage=  ((ToolkitImage)getProfilePicResponse.getImageIcon().getImage()).getBufferedImage();
+            image = SwingFXUtils.toFXImage(bufferedImage, null);
+            profilePicImageView.setImage(image);
+            changeProfilePicImageView.setImage(image);
+        }
     }
 
     // Join a course

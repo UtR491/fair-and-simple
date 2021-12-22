@@ -1,12 +1,14 @@
 package main;
 
 import entity.Message;
+import entity.RegistrationStreamWrapper;
 import request.*;
 import requestHandler.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 
@@ -14,11 +16,12 @@ public class RequestIdentifier implements Runnable{
     Socket socket;
     ObjectOutputStream oos=null;
     ObjectInputStream ois=null;
+    ServerSocket chatServerSocket;
     public String userID;
 
-
-    public RequestIdentifier(Socket socket){
+    public RequestIdentifier(Socket socket, ServerSocket chatServerSocket){
         this.socket=socket;
+        this.chatServerSocket = chatServerSocket;
         try {
             oos=new ObjectOutputStream(socket.getOutputStream());
             ois=new ObjectInputStream(socket.getInputStream());
@@ -30,6 +33,7 @@ public class RequestIdentifier implements Runnable{
 
     @Override
     public void run() {
+
         System.out.println("We are here");
         while (socket.isConnected()){
             Object request;
@@ -48,6 +52,18 @@ public class RequestIdentifier implements Runnable{
                 userID=((LoginRequest) request).getUsername();
                 LoginRequestHandler loginRequestHandler=new LoginRequestHandler(oos,(LoginRequest)request,Server.getConnection());
                 loginRequestHandler.sendResponse(userID);
+
+                try {
+                    Socket chatSocket=chatServerSocket.accept();
+                    ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
+                    ObjectInputStream objectInputStream = new ObjectInputStream(chatSocket.getInputStream());
+                    String registrationNumber = (String) objectInputStream.readObject();
+                    System.out.println(chatSocket);
+                    System.out.println("connection established with client");
+                    Server.socketArrayList.add(new RegistrationStreamWrapper(registrationNumber, objectOutputStream));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             else if(request instanceof RegisterRequest){
                 RegisterRequestHandler registerRequestHandler=new RegisterRequestHandler((RegisterRequest)request,oos,Server.getConnection());
