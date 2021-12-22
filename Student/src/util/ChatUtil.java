@@ -1,12 +1,10 @@
 package util;
 
-import entity.Message;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import entity.Message;
 
 public class ChatUtil implements Runnable {
-
 
     ObjectInputStream ois;
 
