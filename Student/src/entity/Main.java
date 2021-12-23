@@ -22,10 +22,6 @@ public class Main extends Application {
     public static final String myColor = "#f55f78";
     public static final String otherColor = "#bee2f7";
 
-    public static String lastOpenCourseId = null;
-    public static final String myColor = "#f55f78";
-    public static final String otherColor = "#bee2f7";
-
     public static void main(String[] args) {
         launch(args);
     }
