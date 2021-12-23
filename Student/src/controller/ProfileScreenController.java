@@ -4,9 +4,12 @@ import entity.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,6 +17,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import request.*;
@@ -333,11 +341,15 @@ public class ProfileScreenController implements Initializable
         heyNameLabel.setText("Hey, "+name);
         System.out.println("inside the first method after login trying to create chat socket");
         setCoursesList();
+       // setNotificationsList();
         setUpcomingExamsList();
         setExamsHistoryTableView();
         setProfilePic();
     }
 
+    public void setNotificationsList(){
+
+    }
     public void onExamClicked(MouseEvent mouseEvent) {
         if(mouseEvent.getClickCount() == 2)
         {
@@ -378,6 +390,34 @@ public class ProfileScreenController implements Initializable
             return (GetQuestionsResponse) Main.getResponse();
         }
         return null;
+    }
+    @FXML
+    public VBox notificationContainer;
+
+    public void onNotificationsClicked(Event event) {
+        Main.notificationVbox=notificationContainer;
+        notificationContainer.getChildren().clear();
+        Main.sendRequest(new GetNotificationRequest());
+        System.out.println("notif request sent");
+        GetNotificationResponse getNotificationResponse=(GetNotificationResponse)Main.getResponse();
+        System.out.println("notif response received");
+        assert getNotificationResponse != null;
+        System.out.println("response is "+getNotificationResponse);
+        ArrayList<Notification>notificationArrayList=getNotificationResponse.getNotificationArrayList();
+
+        for (Notification notification:notificationArrayList) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleNotificationCardFXML.fxml"));
+            try {
+                Node node = fxmlLoader.load();
+                SingleNotificationCardFXMLController singleNotificationCardFXMLController = fxmlLoader.getController();
+                singleNotificationCardFXMLController.courseLabel.setText(notification.getCourseName());
+                singleNotificationCardFXMLController.messageLabel.setText(notification.getText());
+                singleNotificationCardFXMLController.timestampLabel.setText(notification.getSentAt().toString());
+                notificationContainer.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 
