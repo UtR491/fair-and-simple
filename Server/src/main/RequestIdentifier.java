@@ -136,7 +136,7 @@ public class RequestIdentifier implements Runnable{
                 requestHandler.sendResponse(userID);
             }
             else if(request instanceof SubmitExamRequest) {
-                SubmitExamRequestHandler requestHandler = new SubmitExamRequestHandler(Server.getConnection(), oos, (SubmitExamRequest) request);
+                SubmitExamRequestHandler requestHandler = new SubmitExamRequestHandler(Server.getConnection(), oos, ois, (SubmitExamRequest) request);
                 requestHandler.sendResponse(userID);
             }
             else if (request instanceof CourseDetailsRequest){

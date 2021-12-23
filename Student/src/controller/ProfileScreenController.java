@@ -359,7 +359,7 @@ public class ProfileScreenController implements Initializable
                     scene=new Scene(fxmlLoader.load());
                     QuestionsScreenController questionsScreenController= fxmlLoader.getController();
                     questionsScreenController.setQuiz(exam);
-                    questionsScreenController.setData(response.getProctorPort(), response.getQuestionsList());
+                    questionsScreenController.setData(response.getProctorPort(), response.getQuestionsList(), exam.getExamId());
                     currentStage.setScene(scene);
                     currentStage.setTitle(exam.getTitle());
                 } catch (IOException e) {
