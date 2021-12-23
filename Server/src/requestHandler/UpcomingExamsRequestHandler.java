@@ -9,10 +9,7 @@ import table.ExamTable;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class UpcomingExamsRequestHandler extends RequestHandler {
@@ -32,7 +29,7 @@ public class UpcomingExamsRequestHandler extends RequestHandler {
         {
             PreparedStatement preparedStatement=connection.prepareStatement(ExamTable.GET_UPCOMING_EXAMS_STUDENT);
             preparedStatement.setString(1, userID);
-            preparedStatement.setDate(2,new java.sql.Date(System.currentTimeMillis()));
+            preparedStatement.setTimestamp(2,new java.sql.Timestamp(System.currentTimeMillis()));
             System.out.println(preparedStatement.toString());
             ResultSet results = preparedStatement.executeQuery();
 
