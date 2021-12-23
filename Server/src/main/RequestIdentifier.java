@@ -47,7 +47,7 @@ public class RequestIdentifier implements Runnable{
             }
             System.out.println("Request came");
             if(request==null) break;
-            else if(request instanceof LoginRequest){
+             else if(request instanceof LoginRequest){
                 System.out.println("Login request");
                 userID=((LoginRequest) request).getUsername();
                 LoginRequestHandler loginRequestHandler=new LoginRequestHandler(oos,(LoginRequest)request,Server.getConnection());
@@ -166,11 +166,6 @@ public class RequestIdentifier implements Runnable{
             else if(request instanceof GetTeacherProfilePicRequest) {
                 GetTeacherProfilePicRequestHandler getTeacherProfilePicRequestHandler = new GetTeacherProfilePicRequestHandler(Server.getConnection(), oos, (GetTeacherProfilePicRequest) request);
                 getTeacherProfilePicRequestHandler.sendResponse(userID);
-            }
-            else if(request instanceof Message) {
-                SendMessageRequestHandler sendMessageRequestHandler = new SendMessageRequestHandler(Server.getConnection(), oos, (Message) request);
-                sendMessageRequestHandler.sendResponse(userID);
-                sendMessageRequestHandler.sendToAll();// send the message to every connected person
             }
             else if(request instanceof Message) {
                 SendMessageRequestHandler sendMessageRequestHandler = new SendMessageRequestHandler(Server.getConnection(), oos, (Message) request);

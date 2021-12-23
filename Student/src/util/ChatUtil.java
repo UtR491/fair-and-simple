@@ -3,6 +3,7 @@ package util;
 import controller.SingleChatCardFXMLController;
 import entity.Main;
 import entity.Message;
+import entity.Notification;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
@@ -43,8 +44,20 @@ public class ChatUtil implements Runnable {
             final Message message = message2;
             System.out.println("Message received from sender id "+ message.getSenderID()+": "+message.getText());
 
+            if(message instanceof Notification){
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        Notifications.create()
+                                .title("Notification from " + message.getSenderName() + " in " + message.getCourseName())
+                                .text(message.getText())
+                                .show();
+                    }
+                });
+                return;
+            }
 
-            if(Main.chatVBox == null || !message.getCourseID().equals(Main.lastOpenCourseId)) {
+             if(Main.chatVBox == null || !message.getCourseID().equals(Main.lastOpenCourseId)) {
                 if(!Objects.equals(message.getSenderID(), Main.userRegistrationNumber)) {
                     Platform.runLater(new Runnable() {
                         @Override

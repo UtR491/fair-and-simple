@@ -2,7 +2,6 @@ package requestHandler;
 
 import entity.Message;
 import entity.RegistrationStreamWrapper;
-import main.RequestIdentifier;
 import main.Server;
 import response.SendMessageResponse;
 import table.EnrollmentTable;
@@ -86,8 +85,10 @@ public class SendMessageRequestHandler extends RequestHandler {
             try {
                 //if(s.getOutputStream().equals(oos))continue;
                 if(registrationNumbers.contains(w.getRegistrationNumber())) {
-                    oos.writeObject(message);
-                    oos.flush();
+                    synchronized (oos){
+                        oos.writeObject(message);
+                        oos.flush();
+                    }
                     System.out.println("message object sent");
                 }
             } catch (IOException e) {

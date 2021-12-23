@@ -304,8 +304,9 @@ public class ProfileScreenController implements Initializable
     }
 
     public void onCourseClicked(MouseEvent mouseEvent) {
-        FXMLLoader courseLoader=new FXMLLoader(getClass().getResource("../fxml/CourseTabPane.fxml"));
         Course course= (Course) coursesTableView.getSelectionModel().getSelectedItem();
+        if(course==null)return;
+        FXMLLoader courseLoader=new FXMLLoader(getClass().getResource("../fxml/CourseTabPane.fxml"));
         Scene scene=null;
         try {
              scene=new Scene(courseLoader.load());
@@ -331,28 +332,6 @@ public class ProfileScreenController implements Initializable
         this.name=name;
         heyNameLabel.setText("Hey, "+name);
         System.out.println("inside the first method after login trying to create chat socket");
-
-        System.out.println("now chat socket");
-        Socket chatSocket;
-        ObjectInputStream chatois = null;
-        try {
-            chatSocket = new Socket("localhost",6970);
-            System.out.println(chatSocket);
-            ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
-            System.out.println("created chat oos");
-            System.out.println(objectOutputStream);
-            objectOutputStream.flush();
-            InputStream is = chatSocket.getInputStream();
-            System.out.println("chat input stream created");
-             chatois=new ObjectInputStream(is);
-            System.out.println(chatois);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("chat object input stream created");
-
-        Thread t=new Thread(new ChatUtil(chatois));
-        t.start();
         setCoursesList();
         setUpcomingExamsList();
         setExamsHistoryTableView();
