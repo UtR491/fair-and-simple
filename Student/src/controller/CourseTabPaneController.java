@@ -388,7 +388,6 @@ public class CourseTabPaneController implements Initializable {
                 }
             }
         }
-
     }
 
     public void uploadButtonResponse(ActionEvent actionEvent) {
