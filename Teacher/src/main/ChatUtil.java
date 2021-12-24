@@ -58,9 +58,7 @@ public class ChatUtil implements Runnable {
                                 .title("Notification from " + message.getSenderName() + " in " + message.getCourseName())
                                 .text(message.getText())
                                 .show();
-
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleNotificationCardFXML.fxml"));
-                        //                            Node node = fxmlLoader.load();
                         SingleNotificationCardFXMLController singleNotificationCardFXMLController = fxmlLoader.getController();
                         singleNotificationCardFXMLController.courseLabel.setText(message.getCourseName());
                         singleNotificationCardFXMLController.messageLabel.setText(message.getText());

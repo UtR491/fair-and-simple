@@ -30,7 +30,6 @@ public class SendNotification implements Runnable {
                 System.out.println(preparedStatement);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    System.out.println("inside result set");
                     sendToAll(new Notification(
                             null,
                             "Admin",
@@ -95,7 +94,6 @@ public class SendNotification implements Runnable {
 
         for (TeacherIdStreamWrapper r:Server.teacherSocketArrayList) {
             if(proctorID.equals(r.getTeacherId())){
-                System.out.println("found the teacher socket");
                 ObjectOutputStream objectOutputStream=r.getOos();
                 System.out.println("sending proctor notif, got his oos"+objectOutputStream);
                 try {
