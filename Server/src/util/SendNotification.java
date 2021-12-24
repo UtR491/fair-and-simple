@@ -29,7 +29,8 @@ public class SendNotification implements Runnable {
                 System.out.println(preparedStatement);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    sendToAll(new Notification("0",
+                    sendToAll(new Notification(
+                            null,
                             "Admin",
                             resultSet.getString(ExamTable.COURSE_ID_COLUMN),
                             resultSet.getString(CoursesTable.TABLE_NAME+"."+CoursesTable.COURSE_NAME_COLUMN),
@@ -37,7 +38,8 @@ public class SendNotification implements Runnable {
                             null,
                             Timestamp.valueOf(LocalDateTime.now()),
                             false));
-                    saveToDatabase(new Message(null,
+                    saveToDatabase(new Message(
+                            null,
                     "Admin",
                             resultSet.getString(ExamTable.COURSE_ID_COLUMN),
                             resultSet.getString(CoursesTable.TABLE_NAME+"."+CoursesTable.COURSE_NAME_COLUMN),
@@ -97,7 +99,7 @@ public class SendNotification implements Runnable {
             preparedStatement.setString(3,message.getText());
             preparedStatement.setNull(4,Types.BLOB);
             preparedStatement.setTimestamp(5,message.getSentAt());
-            preparedStatement.setBoolean(6,false);
+            preparedStatement.setBoolean(6,message.getStudent());
             int result=preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
