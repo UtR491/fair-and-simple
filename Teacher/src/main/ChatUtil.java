@@ -60,15 +60,11 @@ public class ChatUtil implements Runnable {
                                 .show();
 
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleNotificationCardFXML.fxml"));
-                        try {
-                            Node node = fxmlLoader.load();
-                            SingleNotificationCardFXMLController singleNotificationCardFXMLController = fxmlLoader.getController();
-                            singleNotificationCardFXMLController.courseLabel.setText(message.getCourseName());
-                            singleNotificationCardFXMLController.messageLabel.setText(message.getText());
-                            singleNotificationCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        //                            Node node = fxmlLoader.load();
+                        SingleNotificationCardFXMLController singleNotificationCardFXMLController = fxmlLoader.getController();
+                        singleNotificationCardFXMLController.courseLabel.setText(message.getCourseName());
+                        singleNotificationCardFXMLController.messageLabel.setText(message.getText());
+                        singleNotificationCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
                     }
                 });
                 return;
