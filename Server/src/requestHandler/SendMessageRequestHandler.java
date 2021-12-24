@@ -3,7 +3,6 @@ package requestHandler;
 import entity.Message;
 import entity.RegistrationStreamWrapper;
 import entity.TeacherIdStreamWrapper;
-import main.RequestIdentifier;
 import main.Server;
 import response.SendMessageResponse;
 import sun.awt.image.ToolkitImage;
@@ -83,16 +82,17 @@ public class SendMessageRequestHandler extends RequestHandler {
         System.out.println("inside send to all");
         for (RegistrationStreamWrapper w:socketArrayList) {
             ObjectOutputStream oos = w.getOos();
-            System.out.println("Caht oos  here:");
+            System.out.println("Chat oos  here:");
             System.out.println(oos.toString());
             try {
                 //if(s.getOutputStream().equals(oos))continue;
                 if(registrationNumbers.contains(w.getRegistrationNumber())) {
-                    oos.writeObject(message);
-                    oos.flush();
+                    synchronized (oos){
+                        oos.writeObject(message);
+                        oos.flush();
+                    }
                     System.out.println("message object sent");
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

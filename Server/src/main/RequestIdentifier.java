@@ -47,8 +47,8 @@ public class RequestIdentifier implements Runnable{
                 break;
             }
             System.out.println("Request came");
-            if(request==null) break;
-            else if(request instanceof LoginRequest){
+           // if(request==null) break;
+              if(request instanceof LoginRequest){
                 System.out.println("Login request");
                 userID=((LoginRequest) request).getUsername();
                 LoginRequestHandler loginRequestHandler=new LoginRequestHandler(oos,(LoginRequest)request,Server.getConnection());
@@ -150,7 +150,7 @@ public class RequestIdentifier implements Runnable{
                 requestHandler.sendResponse(userID);
             }
             else if(request instanceof SubmitExamRequest) {
-                SubmitExamRequestHandler requestHandler = new SubmitExamRequestHandler(Server.getConnection(), oos, (SubmitExamRequest) request);
+                SubmitExamRequestHandler requestHandler = new SubmitExamRequestHandler(Server.getConnection(), oos, ois, (SubmitExamRequest) request);
                 requestHandler.sendResponse(userID);
             }
             else if (request instanceof CourseDetailsRequest){
@@ -202,9 +202,9 @@ public class RequestIdentifier implements Runnable{
                 DisplayMessagesRequestHandler displayMessagesRequestHandler = new DisplayMessagesRequestHandler(Server.getConnection(), oos, (DisplayMessagesRequest) request);
                 displayMessagesRequestHandler.sendResponse(userID);
             }
-            else if(request instanceof DisplayMessagesRequest) {
-                DisplayMessagesRequestHandler displayMessagesRequestHandler = new DisplayMessagesRequestHandler(Server.getConnection(), oos, (DisplayMessagesRequest) request);
-                displayMessagesRequestHandler.sendResponse(userID);
+            else if(request instanceof GetNotificationRequest){
+                GetNotificationRequestHandler getNotificationRequestHandler=new GetNotificationRequestHandler(Server.getConnection(), oos, (GetNotificationRequest) request);
+                getNotificationRequestHandler.sendResponse(userID);
             }
             else{
                 Server.sendResponse(oos, null);
