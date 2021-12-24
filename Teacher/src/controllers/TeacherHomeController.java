@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -402,5 +403,8 @@ public class TeacherHomeController {
                 GuiUtil.alert(Alert.AlertType.WARNING, "You can access the proctoring screen only when there are less than 15 minutes remaining for the commencement of the exam.");
             }
         }
+    }
+
+    public void onNotificationsClicked(Event event) {
     }
 }
