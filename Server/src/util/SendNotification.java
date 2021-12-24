@@ -3,6 +3,7 @@ package util;
 import entity.Message;
 import entity.Notification;
 import entity.RegistrationStreamWrapper;
+import entity.TeacherIdStreamWrapper;
 import main.Server;
 import table.CoursesTable;
 import table.EnrollmentTable;
@@ -37,7 +38,8 @@ public class SendNotification implements Runnable {
                             resultSet.getString(ExamTable.TABLE_NAME+"."+ExamTable.TITLE_COLUMN)+" is about to start",
                             null,
                             Timestamp.valueOf(LocalDateTime.now()),
-                            false));
+                            false),
+                            resultSet.getString(ExamTable.TABLE_NAME+"."+ExamTable.PROCTOR_ID_COLUMN));
                     saveToDatabase(new Message(
                             null,
                     "Admin",
@@ -54,7 +56,7 @@ public class SendNotification implements Runnable {
         }
     }
 
-    public void sendToAll(Notification message){
+    public void sendToAll(Notification message,String proctorID){
         List<String> registrationNumbers = new ArrayList<>();
         try {
             PreparedStatement getRegistrationNumbers = connection.prepareStatement(EnrollmentTable.QUERY_GET_STUDENTS_BY_COURSE_ID);
@@ -87,6 +89,23 @@ public class SendNotification implements Runnable {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+
+        for (TeacherIdStreamWrapper r:Server.teacherSocketArrayList) {
+            if(proctorID.equals(r.getTeacherId())){
+                ObjectOutputStream objectOutputStream=r.getOos();
+                System.out.println("sending proctor notif, got his oos"+objectOutputStream);
+                try {
+                    synchronized (objectOutputStream){
+                        objectOutputStream.writeObject(message);
+                        objectOutputStream.flush();
+                        System.out.println("send notification to proctor");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }

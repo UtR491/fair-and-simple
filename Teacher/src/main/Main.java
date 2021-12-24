@@ -4,8 +4,10 @@ import entity.Status;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
@@ -18,10 +20,13 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Main extends Application {
-
     private static String teacherId = "";
     private static String teacherName = "";
     static ObjectOutputStream outputStream;
+    public static VBox chatVBox = null;
+    public static String lastOpenCourseId = null;
+    public static final String myColor = "#f55f78";
+    public static final String otherColor = "#bee2f7";
     private static ObjectInputStream inputStream;
     public static Object tempHolder = null;
 
