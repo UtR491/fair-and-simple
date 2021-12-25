@@ -3,6 +3,7 @@ package util;
 import entity.Message;
 import entity.Notification;
 import entity.RegistrationStreamWrapper;
+import entity.TeacherIdStreamWrapper;
 import main.Server;
 import table.CoursesTable;
 import table.EnrollmentTable;
@@ -23,21 +24,24 @@ public class SendNotification implements Runnable {
         connection=Server.getConnection();
         while (true) {
             try {
-                Thread.sleep(69*1000);
+                Thread.sleep(59*1000);
                 PreparedStatement preparedStatement=connection.prepareStatement(ExamTable.GET_EXAM_IN_NEXT_15_MINS);
                 System.out.println("printing notif query");
                 System.out.println(preparedStatement);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    sendToAll(new Notification("0",
+                    sendToAll(new Notification(
+                            null,
                             "Admin",
                             resultSet.getString(ExamTable.COURSE_ID_COLUMN),
                             resultSet.getString(CoursesTable.TABLE_NAME+"."+CoursesTable.COURSE_NAME_COLUMN),
                             resultSet.getString(ExamTable.TABLE_NAME+"."+ExamTable.TITLE_COLUMN)+" is about to start",
                             null,
                             Timestamp.valueOf(LocalDateTime.now()),
-                            false));
-                    saveToDatabase(new Message(null,
+                            false),
+                            resultSet.getString(ExamTable.TABLE_NAME+"."+ExamTable.PROCTOR_ID_COLUMN));
+                    saveToDatabase(new Message(
+                            null,
                     "Admin",
                             resultSet.getString(ExamTable.COURSE_ID_COLUMN),
                             resultSet.getString(CoursesTable.TABLE_NAME+"."+CoursesTable.COURSE_NAME_COLUMN),
@@ -52,7 +56,7 @@ public class SendNotification implements Runnable {
         }
     }
 
-    public void sendToAll(Notification message){
+    public void sendToAll(Notification message,String proctorID){
         List<String> registrationNumbers = new ArrayList<>();
         try {
             PreparedStatement getRegistrationNumbers = connection.prepareStatement(EnrollmentTable.QUERY_GET_STUDENTS_BY_COURSE_ID);
@@ -87,6 +91,23 @@ public class SendNotification implements Runnable {
                 e.printStackTrace();
             }
         }
+
+        for (TeacherIdStreamWrapper r:Server.teacherSocketArrayList) {
+            if(proctorID.equals(r.getTeacherId())){
+                ObjectOutputStream objectOutputStream=r.getOos();
+                System.out.println("sending proctor notif, got his oos"+objectOutputStream);
+                try {
+                    synchronized (objectOutputStream){
+                        objectOutputStream.writeObject(message);
+                        objectOutputStream.flush();
+                        System.out.println("send notification to proctor");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
 
     public void saveToDatabase(Message message){
@@ -97,7 +118,7 @@ public class SendNotification implements Runnable {
             preparedStatement.setString(3,message.getText());
             preparedStatement.setNull(4,Types.BLOB);
             preparedStatement.setTimestamp(5,message.getSentAt());
-            preparedStatement.setBoolean(6,false);
+            preparedStatement.setBoolean(6,message.getStudent());
             int result=preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
