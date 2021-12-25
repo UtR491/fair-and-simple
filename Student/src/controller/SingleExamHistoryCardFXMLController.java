@@ -67,10 +67,6 @@ public class SingleExamHistoryCardFXMLController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-<<<<<<< HEAD
-        stage.setMaximized(true);
-=======
->>>>>>> 80b456bfaae9b799496ad64890ec89309ce84464
         stage.setScene(scene);
         stage.setTitle("Your Result");
         stage.show();
