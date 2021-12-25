@@ -59,17 +59,11 @@ public class ChatUtil implements Runnable {
                                 .title("Notification from " + message.getSenderName() + " in " + message.getCourseName())
                                 .text(message.getText())
                                 .show();
-
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleNotificationCardFXML.fxml"));
-                        try {
-                            Node node = fxmlLoader.load();
-                            SingleNotificationCardFXMLController singleNotificationCardFXMLController = fxmlLoader.getController();
-                            singleNotificationCardFXMLController.courseLabel.setText(message.getCourseName());
-                            singleNotificationCardFXMLController.messageLabel.setText(message.getText());
-                            singleNotificationCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        SingleNotificationCardFXMLController singleNotificationCardFXMLController = fxmlLoader.getController();
+                        singleNotificationCardFXMLController.courseLabel.setText(message.getCourseName());
+                        singleNotificationCardFXMLController.messageLabel.setText(message.getText());
+                        singleNotificationCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
                     }
                 });
                 return;
