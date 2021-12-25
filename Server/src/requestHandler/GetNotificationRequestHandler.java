@@ -48,7 +48,6 @@ public class GetNotificationRequestHandler extends RequestHandler{
                 );
             }
             System.out.println("sending notif ");
-            System.out.println(notificationArrayList.get(0).getText());
             oos.writeObject(new GetNotificationResponse(notificationArrayList));
             oos.flush();
         } catch (SQLException | IOException e) {

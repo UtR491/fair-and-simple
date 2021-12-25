@@ -2,22 +2,22 @@ package controllers;
 
 import entity.Course;
 import entity.Exam;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import main.GuiUtil;
 import main.Main;
 import request.*;
@@ -37,7 +37,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TeacherHomeController {
     @FXML
@@ -60,26 +59,6 @@ public class TeacherHomeController {
     public TextField courseCodeTextField;
     @FXML
     public Button createCourseButton;
-    @FXML
-    public TextField examHistorySearchBar;
-    @FXML
-    public TableView<Exam> resultExamsTableView;
-    @FXML
-    public TableColumn<Exam, String> examResultCourseTableColumn;
-    @FXML
-    public TableColumn<Exam, String> examsResultTitleTableColumn;
-    @FXML
-    public TableColumn<Exam, Date> examsResultDateTableColumn;
-    @FXML
-    public TableView particularResultTableView;
-    @FXML
-    public TableColumn particularResultRankTableColumn;
-    @FXML
-    public TableColumn particularResultRegistrationNumberTableColumn;
-    @FXML
-    public TableColumn particularResultNameTableColumn;
-    @FXML
-    public TableColumn particularResultMarksTableColumn;
     @FXML
     public TextField upcomingExamsSearchBar;
     @FXML
@@ -116,6 +95,11 @@ public class TeacherHomeController {
     public Button confirmPicChangeButton;
     @FXML
     public ImageView changeProfilePicImageView;
+    @FXML
+    public VBox examVBox;
+    @FXML
+    public VBox studentsVBox;
+
     private TeacherExamResponse teacherExamResponse;
     private File selectedFile;
 
@@ -212,6 +196,21 @@ public class TeacherHomeController {
         populateProctoringDutyExamTable();
         setProfilePic();
     }
+
+    private void populateResultsExamVBox(List<Exam> previousExams) {
+        for(Exam exam : previousExams) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/ResultsExamCardView.fxml"));
+            try {
+                Node node = loader.load();
+                ResultsExamCardController controller = loader.getController();
+                controller.first(exam, studentsVBox);
+                examVBox.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @FXML
     public void createCourseButtonResponse(ActionEvent actionEvent) {
         if(courseNameTextField.getText() == null || courseNameTextField.getText().length() == 0) {
@@ -265,22 +264,22 @@ public class TeacherHomeController {
         upcomingTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         upcomingTitleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         upcomingMaxMarksTableColumn.setCellValueFactory(new PropertyValueFactory<>("maxMarks"));
-        examsResultTitleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        examsResultDateTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        examResultCourseTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseName"));
         TeacherExamRequest request = new TeacherExamRequest(Main.getTeacherId(), false);
         Main.sendRequest(request);
         teacherExamResponse = (TeacherExamResponse) Main.receiveResponse();
         if(teacherExamResponse == null) GuiUtil.alert(Alert.AlertType.ERROR, "Could not fetch your exams. Might be a server error.");
         else {
-            ObservableList<Exam> upcomingExams = FXCollections.observableList(teacherExamResponse.getExams().stream()
-                    .filter((Exam e) -> e.getDate().after(new Date()))
-                    .collect(Collectors.toList()));
-            ObservableList<Exam> pastExams = FXCollections.observableList(teacherExamResponse.getExams().stream()
-                    .filter((Exam e) -> e.getDate().before(new Date()))
-                    .collect(Collectors.toList()));
+            List<Exam> previousExams = new ArrayList<>();
+            List<Exam> futureExams = new ArrayList<>();
+            for(Exam exam : teacherExamResponse.getExams()) {
+                if(exam.getDate().before(new Timestamp(System.currentTimeMillis())))
+                    previousExams.add(exam);
+                else
+                    futureExams.add(exam);
+            }
+            ObservableList<Exam> upcomingExams = FXCollections.observableList(futureExams);
             upcomingExamsTableView.setItems(upcomingExams);
-            resultExamsTableView.setItems(pastExams);
+            populateResultsExamVBox(previousExams);
         }
     }
 

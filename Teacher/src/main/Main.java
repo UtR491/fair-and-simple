@@ -21,8 +21,8 @@ public class Main extends Application {
 
     private static String teacherId = "";
     private static String teacherName = "";
-    static ObjectOutputStream outputStream;
-    private static ObjectInputStream inputStream;
+    public static ObjectOutputStream outputStream;
+    public static ObjectInputStream inputStream;
     public static Object tempHolder = null;
 
     public static void main(String[] args) {
