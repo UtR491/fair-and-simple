@@ -20,11 +20,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.GuiUtil;
+import util.GuiUtil;
 import main.Main;
 import request.*;
 import response.*;
 import sun.awt.image.ToolkitImage;
+import util.HashUtil;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -85,7 +86,7 @@ public class TeacherHomeController {
     @FXML
     public ImageView changeProfilePicImageView;
     @FXML
-    public VBox examVBox;
+    public FlowPane examFlowPane;
     @FXML
     public VBox studentsVBox;
 
@@ -108,7 +109,7 @@ public class TeacherHomeController {
         }
         changePasswordButton.setDisable(true);
         TeacherChangePasswordRequest request = new TeacherChangePasswordRequest(Main.getTeacherId(),
-                oldPasswordTextField.getText(), newPasswordTextField.getText());
+                HashUtil.getMd5(oldPasswordTextField.getText()), HashUtil.getMd5(newPasswordTextField.getText()));
         Main.sendRequest(request);
         TeacherChangePasswordResponse response = (TeacherChangePasswordResponse) Main.receiveResponse();
         if(response == null || response.getStatus() == -1) {
@@ -186,15 +187,15 @@ public class TeacherHomeController {
         populateTeacherCourses();
     }
 
-    private void populateResultsExamVBox(List<Exam> previousExams) {
-        examVBox.getChildren().clear();
+    private void populateResultsExamFlowPane(List<Exam> previousExams) {
+        examFlowPane.getChildren().clear();
         for(Exam exam : previousExams) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/ResultsExamCardView.fxml"));
             try {
                 Node node = loader.load();
                 ResultsExamCardController controller = loader.getController();
                 controller.first(exam, studentsVBox);
-                examVBox.getChildren().add(node);
+                examFlowPane.getChildren().add(node);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -267,7 +268,7 @@ public class TeacherHomeController {
                 else
                     futureExams.add(exam);
             }
-            populateResultsExamVBox(previousExams);
+            populateResultsExamFlowPane(previousExams);
             for(Exam exam : futureExams){
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/QuizCardLayoutFXML.fxml"));
                 try {

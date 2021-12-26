@@ -1,4 +1,4 @@
-package main;
+package util;
 
 import controllers.SingleChatCardFXMLController;
 import controllers.SingleImageChatCardFXMLController;
@@ -17,6 +17,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import main.Main;
 import org.controlsfx.control.Notifications;
 import sun.awt.image.ToolkitImage;
 
