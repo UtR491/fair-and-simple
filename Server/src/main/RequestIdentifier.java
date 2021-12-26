@@ -228,6 +228,10 @@ public class RequestIdentifier implements Runnable{
                 GetResultForStudentRequestHandler handler = new GetResultForStudentRequestHandler(Server.getConnection(), oos, (GetResultForStudentRequest) request);
                 handler.sendResponse(userID);
             }
+            else if(request instanceof AddStudentRequest){
+                AddStudentRequestHandler addStudentRequestHandler=new AddStudentRequestHandler(Server.getConnection(),oos,(AddStudentRequest)request);
+                addStudentRequestHandler.sendResponse(userID);
+            }
             else{
                 Server.sendResponse(oos, null);
             }

@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import request.*;
 import response.*;
 import sun.awt.image.ToolkitImage;
+import util.HashUtil;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -124,7 +125,7 @@ public class ProfileScreenController implements Initializable
         String confirmedNewPassword = confirmNewPasswordTextField.getText();
 
         if(newPassword.equals(confirmedNewPassword)) {
-            ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest(oldPassword,newPassword);
+            ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest(HashUtil.getMd5(oldPassword),HashUtil.getMd5(newPassword));
             System.out.println("change password request sent");
             Main.sendRequest(changePasswordRequest);
             ChangePasswordResponse changePasswordResponse = (ChangePasswordResponse) Main.getResponse();

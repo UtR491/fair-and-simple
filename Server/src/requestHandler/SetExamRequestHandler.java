@@ -63,6 +63,9 @@ public class SetExamRequestHandler extends RequestHandler{
             setExam.setObject(6, request.getStartTime());
             setExam.setObject(7, request.getEndTime());
             setExam.setString(8, request.getTeacherId());
+
+            System.out.println("Set exam query");
+            System.out.println(setExam);
             int result = setExam.executeUpdate();
             if(result == 0) {
                 System.out.println("Returning from here 1111111");

@@ -24,15 +24,13 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import request.AddStudentRequest;
+import response.*;
 import util.GuiUtil;
 import main.Main;
 import request.CourseStudentRequest;
 import request.DisplayMessagesRequest;
 import request.SetExamRequest;
-import response.CourseStudentResponse;
-import response.DisplayMessagesResponse;
-import response.SendMessageResponse;
-import response.SetExamResponse;
 import sun.awt.image.ToolkitImage;
 
 import javax.imageio.ImageIO;
@@ -123,6 +121,10 @@ public class CourseController {
     public Button uploadImageButton;
     @FXML
     public ScrollPane chatScrollPane;
+    @FXML
+    public TextField addStudentTextField;
+    @FXML
+    public Button addStudentButton;
 
     File selectedFile = null;
     private String courseId;
@@ -213,7 +215,7 @@ public class CourseController {
 
         descriptionTextArea.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,250}") ? c : null));
         titleTextField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,20}") ? c : null));
-
+        addStudentTextField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,8}") ? c : null));
         questionTableColumn.setCellValueFactory(new PropertyValueFactory<>("question"));
         optionATableColumn.setCellValueFactory(new PropertyValueFactory<>("optionA"));
         optionBTableColumn.setCellValueFactory(new PropertyValueFactory<>("optionB"));
@@ -440,4 +442,16 @@ public class CourseController {
             uploadImageButton.setText(selectedFile.getName());
     }
 
+    public void addStudentButtonResponse(ActionEvent actionEvent) {
+        AddStudentRequest addStudentRequest=new AddStudentRequest(courseId,addStudentTextField.getText());
+        Main.sendRequest(addStudentRequest);
+        AddStudentResponse addStudentResponse=(AddStudentResponse)Main.receiveResponse();
+        assert addStudentResponse != null;
+        if(addStudentResponse.getStatus()==Status.STUDENT_ADDED){
+            GuiUtil.alert(Alert.AlertType.INFORMATION,"Student added successfully");
+            populateCourseStudentsTable();
+        }else if(addStudentResponse.getStatus()==Status.REGISTRATION_NUMBER_INVALID){
+            GuiUtil.alert(Alert.AlertType.ERROR,"Invalid Registration Number");
+        }
+    }
 }
