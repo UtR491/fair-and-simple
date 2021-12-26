@@ -13,32 +13,37 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="590.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TeacherHomeController">
-    <bottom>
-        <TabPane prefHeight="531.0" prefWidth="682.0" side="LEFT" stylesheets="@../css/tabs.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TeacherHomeController">
+   <center>
+        <TabPane prefHeight="592.0" prefWidth="698.0" side="LEFT" stylesheets="@../css/tabs.css" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab text="Courses">
                <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <ScrollPane BorderPane.alignment="CENTER">
+                  <AnchorPane>
+                     <children>
+                        <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
-                              <FlowPane fx:id="courseContainer" hgap="10.0" prefHeight="512.0" prefWidth="486.0" vgap="10.0">
+                              <FlowPane fx:id="courseContainer" hgap="10.0" prefHeight="522.0" prefWidth="501.0" vgap="10.0">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </FlowPane>
                            </content>
                         </ScrollPane>
-                     </center>
-                  </BorderPane>
-               </content></Tab>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
                 <Tab text="Create Course">
                     <content>
                         <BorderPane prefHeight="200.0" prefWidth="200.0">
@@ -73,13 +78,15 @@
                               <Hyperlink onAction="#clearResponse" text="Clear">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></Hyperlink>
+                                 </font>
+                              </Hyperlink>
                                     </children>
                                     <padding>
                                         <Insets left="20.0" right="20.0" top="40.0" />
                                     </padding>
                                 </VBox>
-                            </center></BorderPane>
+                            </center>
+                  </BorderPane>
                     </content>
                 </Tab>
                 <Tab text="Upcoming">
@@ -102,35 +109,22 @@
                 <Tab text="Results">
                     <content>
                         <BorderPane prefHeight="200.0" prefWidth="200.0">
-                            <center>
-                                <VBox alignment="CENTER" prefHeight="231.0" prefWidth="682.0" spacing="10.0" BorderPane.alignment="CENTER">
-                                    <children>
-                                        <TextField fx:id="examHistorySearchBar" prefHeight="26.0" prefWidth="397.0" promptText="Search an exam">
-                                            <font>
-                                                <Font name="System Bold Italic" size="12.0" />
-                                            </font>
-                                        </TextField>
-                              <TableView fx:id="resultExamsTableView" prefHeight="128.0" prefWidth="562.0">
-                                <columns>
-                                    <TableColumn fx:id="examResultCourseTableColumn" prefWidth="163.00000607967377" text="Course" />
-                                  <TableColumn fx:id="examsResultTitleTableColumn" minWidth="0.0" prefWidth="302.5999755859375" text="Title" />
-                                  <TableColumn fx:id="examsResultDateTableColumn" prefWidth="94.79989624023438" text="Date" />
-                                </columns>
-                              </TableView>
-                              <TableView fx:id="particularResultTableView" prefHeight="229.0" prefWidth="562.0">
-                                <columns>
-                                  <TableColumn fx:id="particularResultRankTableColumn" prefWidth="75.0" text="Rank" />
-                                  <TableColumn fx:id="particularResultRegistrationNumberTableColumn" prefWidth="205.19995880126953" text="Regstration Number" />
-                                    <TableColumn fx:id="particularResultNameTableColumn" prefWidth="210.800048828125" text="Name" />
-                                    <TableColumn fx:id="particularResultMarksTableColumn" prefWidth="68.60000610351562" text="Marks" />
-                                </columns>
-                              </TableView>
-                                    </children>
-                                    <padding>
-                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                    </padding>
-                                </VBox>
-                            </center></BorderPane>
+                     <center>
+                        <GridPane BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <VBox fx:id="examVBox" prefHeight="200.0" prefWidth="100.0" />
+                              <VBox fx:id="studentsVBox" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" />
+                           </children>
+                        </GridPane>
+                     </center>
+                  </BorderPane>
                     </content>
                 </Tab>
                 <Tab text="Proctoring Duty">
@@ -158,7 +152,8 @@
                             </VBox>
                         </center>
                     </BorderPane>
-                </content></Tab>
+                </content>
+            </Tab>
                 <Tab text="Password">
                     <content>
                         <BorderPane prefHeight="200.0" prefWidth="200.0">
@@ -205,7 +200,8 @@
                                         <Insets left="20.0" right="20.0" top="40.0" />
                                     </padding>
                                 </VBox>
-                            </center></BorderPane>
+                            </center>
+                  </BorderPane>
                     </content>
                 </Tab>
                 <Tab text="Profile pic">
@@ -243,7 +239,8 @@
                                         <Insets bottom="30.0" top="30.0" />
                                     </BorderPane.margin>
                                 </VBox>
-                            </center></BorderPane>
+                            </center>
+                  </BorderPane>
                     </content>
                 </Tab>
                 <Tab text="Log out">
@@ -270,8 +267,8 @@
                 </Tab>
             </tabs>
         </TabPane>
-    </bottom>
-    <top>
+   </center>
+   <top>
         <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="682.0" BorderPane.alignment="CENTER">
             <children>
                 <VBox alignment="CENTER" prefHeight="123.0" prefWidth="118.0">
@@ -285,12 +282,12 @@
                         <Insets />
                     </HBox.margin>
                 </VBox>
-                <Label fx:id="heyNameLabel" prefHeight="35.0" prefWidth="402.0" text="Hey vro,">
+                <Label fx:id="heyNameLabel" prefHeight="35.0" prefWidth="402.0" text="Hey vro," HBox.hgrow="ALWAYS">
                     <font>
                         <Font name="Book Antiqua Bold" size="24.0" />
                     </font>
                 </Label>
-                <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="371.0">
+                <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="371.0" HBox.hgrow="ALWAYS">
                     <HBox.margin>
                         <Insets right="30.0" />
                     </HBox.margin>
@@ -300,5 +297,5 @@
                 </HBox>
             </children>
         </HBox>
-    </top>
+   </top>
 </BorderPane>

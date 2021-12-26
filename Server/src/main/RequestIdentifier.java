@@ -214,10 +214,18 @@ public class RequestIdentifier implements Runnable{
                 GetNotificationRequestHandler getNotificationRequestHandler=new GetNotificationRequestHandler(Server.getConnection(), oos);
                 getNotificationRequestHandler.sendResponse(userID);
             }
-            else {
-                  //If the request is not identifiable, we send a null response.
-                  Server.sendResponse(oos, null);
-              }
+            else if(request instanceof SubmitCorrectionRequest) {
+                System.out.println("This is the handler");
+                SubmitCorrectionRequestHandler handler = new SubmitCorrectionRequestHandler(Server.getConnection(), oos, (SubmitCorrectionRequest) request);
+                handler.sendResponse(userID);
+            }
+            else if(request instanceof GetResultForStudentRequest) {
+                GetResultForStudentRequestHandler handler = new GetResultForStudentRequestHandler(Server.getConnection(), oos, (GetResultForStudentRequest) request);
+                handler.sendResponse(userID);
+            }
+            else{
+                Server.sendResponse(oos, null);
+            }
         }
     }
 }
