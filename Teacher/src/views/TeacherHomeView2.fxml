@@ -31,7 +31,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
                               <FlowPane fx:id="courseContainer" hgap="10.0" prefHeight="522.0" prefWidth="501.0" vgap="10.0">
                                  <padding>
