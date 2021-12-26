@@ -54,9 +54,14 @@ public class RequestIdentifier implements Runnable{
         while (socket.isConnected()){
             Object request;
             // Waiting for the request to arrive
-            request = Server.receiveRequest(ois);
+            try {
+                request = Server.receiveRequest(ois);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+                break;
+            }
 
-              if(request instanceof LoginRequest){
+            if(request instanceof LoginRequest){
                   //When login request arrives we create an instance of the LoginRequestHandler,
                   // pass the required parameters and call the sendResponse method.
                 userID=((LoginRequest) request).getUsername();
@@ -227,5 +232,8 @@ public class RequestIdentifier implements Runnable{
                 Server.sendResponse(oos, null);
             }
         }
+        //Remove the OOS after disconnection
+        Server.socketArrayList.removeIf(r -> r.getRegistrationNumber().equals(userID));
+        Server.teacherSocketArrayList.removeIf(r->r.getTeacherId().equals(userID));
     }
 }

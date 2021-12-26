@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.GuiUtil;
+import util.GuiUtil;
 import main.Main;
 import request.*;
 import response.*;

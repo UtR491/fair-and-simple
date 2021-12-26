@@ -98,13 +98,8 @@ public class Server {
      * @param inputStream used to read the incoming object
      * @return returns an Object
      */
-    public static Object receiveRequest(ObjectInputStream inputStream) {
-        try {
-            return inputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static Object receiveRequest(ObjectInputStream inputStream) throws IOException, ClassNotFoundException {
+        return inputStream.readObject();
     }
 
     /**

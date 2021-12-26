@@ -1,7 +1,6 @@
 package controllers;
 
 import entity.*;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -25,7 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import main.GuiUtil;
+import util.GuiUtil;
 import main.Main;
 import request.CourseStudentRequest;
 import request.DisplayMessagesRequest;
@@ -212,6 +211,9 @@ public class CourseController {
         this.courseName = courseName;
         this.courseId = courseId;
 
+        descriptionTextArea.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,250}") ? c : null));
+        titleTextField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,20}") ? c : null));
+
         questionTableColumn.setCellValueFactory(new PropertyValueFactory<>("question"));
         optionATableColumn.setCellValueFactory(new PropertyValueFactory<>("optionA"));
         optionBTableColumn.setCellValueFactory(new PropertyValueFactory<>("optionB"));
@@ -340,6 +342,12 @@ public class CourseController {
                 newButton.setDisable(false);
                 editButton.setDisable(false);
                 deleteButton.setDisable(false);
+            }
+            else if(response.getStatus()==Status.PROCTOR_INVALID){
+                GuiUtil.alert(Alert.AlertType.WARNING,"Invalid Proctor ID");
+            }
+            else if(response.getStatus()==Status.PROCTOR_UNAVAILABLE){
+                GuiUtil.alert(Alert.AlertType.WARNING,"Proctor has a clashing exam");
             }
     }
 

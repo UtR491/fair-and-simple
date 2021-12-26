@@ -15,6 +15,9 @@ public class ExamTable {
     public static final String GET_CLASHING_EXAMS_BY_TEACHER = "SELECT * FROM " + TABLE_NAME
             + " WHERE " + TEACHER_ID_COLUMN + " = ? AND NOT (" + START_TIME_COLUMN + " > ? OR "
             + END_TIME_COLUMN + " < ?);";
+    public static final String GET_CLASHING_EXAMS_FOR_PROCTOR = "SELECT * FROM " + TABLE_NAME
+            + " WHERE " + TEACHER_ID_COLUMN + " = ? AND NOT (" + START_TIME_COLUMN + " > ? OR "
+            + END_TIME_COLUMN + " < ?);";
     public static final String ADD_EXAM_DETAILS = "INSERT INTO " + TABLE_NAME + " ("
             + COURSE_ID_COLUMN + ", " + PROCTOR_ID_COLUMN + ", "
             + TITLE_COLUMN + ", " + DESCRIPTION_COLUMN + ", " + MAXIMUM_MARKS_COLUMN + ", "
