@@ -4,7 +4,6 @@ public class ExamTable {
     public static final String TABLE_NAME = "exam";
     public static final String EXAM_ID_COLUMN = "examID";
     public static final String COURSE_ID_COLUMN = "courseID";
-    public static final String COURSE_NAME_COLUMN = "courseID";
     public static final String TEACHER_ID_COLUMN = "teacherID";
     public static final String PROCTOR_ID_COLUMN = "proctorID";
     public static final String TITLE_COLUMN = "title";
