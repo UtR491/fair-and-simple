@@ -57,7 +57,7 @@ public class CourseCardLayoutFXMLController {
 
         CourseController controller = loader.getController();
         List<Exam> courseExam = getExamsForCourse(course.getCourseId());
-        controller.callFirst(course.getCourseId(), course.getCourseName(),courseExam);
+        controller.callFirst(course.getCourseId(), course.getCourseName(), course.getCourseCode(),courseExam);
     }
 
     private List<Exam> getExamsForCourse(String courseId) {
