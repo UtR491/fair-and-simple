@@ -147,30 +147,6 @@ public class TeacherHomeController {
         System.out.println("Login screen set");
     }
 
-    @FXML
-    public void onCourseClicked(MouseEvent mouseEvent) {
-        if(mouseEvent.getClickCount() == 2)
-        {
-            Course selectedCourse = coursesTableView.getSelectionModel().getSelectedItem();
-            String courseTitle = selectedCourse.getCourseName();
-            String courseId = selectedCourse.getCourseId();
-            System.out.println("Clicked = " + courseId);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/CourseView.fxml"));
-            Stage stage = (Stage) changePasswordButton.getScene().getWindow();
-            Scene scene = null;
-            try {
-                scene = new Scene(loader.load(),changePasswordButton.getScene().getWidth(),changePasswordButton.getScene().getHeight());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            stage.setScene(scene);
-            stage.setTitle(courseTitle);
-            CourseController controller = loader.getController();
-            List<Exam> courseExam = getExamsForCourse(selectedCourse.getCourseId());
-            controller.callFirst(selectedCourse.getCourseId(), selectedCourse.getCourseName(),courseExam);
-        }
-    }
-
     private List<Exam> getExamsForCourse(String courseId) {
         List<Exam> ret = new ArrayList<>();
         for(Exam e : teacherExamResponse.getExams())
@@ -181,6 +157,8 @@ public class TeacherHomeController {
 
     public void callFirst() {
         heyNameLabel.setText("Hey " + Main.getTeacherName() + "!");
+        courseDescriptionTextArea.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,100}") ? c : null));
+        courseNameTextField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,20}") ? c : null));
         populateExamTables();
         populateProctoringDutyExamTable();
         setProfilePic();
@@ -222,7 +200,22 @@ public class TeacherHomeController {
                 courseDescriptionTextArea.setEditable(true);
                 createCourseButton.setDisable(false);
             } else {
-                courseCodeTextField.setText(response.getTeamCode());
+                courseCodeTextField.setText(response.getCourseCode());
+                GuiUtil.alert(Alert.AlertType.INFORMATION,"Course created successfully");
+                FXMLLoader loader=new FXMLLoader(getClass().getResource("../views/CourseView.fxml"));
+                Stage stage = (Stage) createCourseButton.getScene().getWindow();
+                Scene scene = null;
+                try {
+                    scene = new Scene(loader.load(),createCourseButton.getScene().getWidth(),createCourseButton.getScene().getHeight());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage.setScene(scene);
+                stage.setTitle(request.getTeamName());
+                CourseController controller = loader.getController();
+
+                List<Exam> courseExam = getExamsForCourse(response.getCourseID());
+                controller.callFirst(response.getCourseID(), courseNameTextField.getText(),courseCodeTextField.getText(),courseExam);
             }
         }
     }
@@ -361,21 +354,32 @@ public class TeacherHomeController {
         courseNameTextField.clear();
         courseDescriptionTextArea.clear();
         courseCodeTextField.clear();
+        courseNameTextField.setEditable(true);
+        courseDescriptionTextArea.setEditable(true);
+        createCourseButton.setDisable(false);
     }
 
     public void onExamToProctorClick(MouseEvent mouseEvent) {
         System.out.println("Yoyo");
         if(mouseEvent.getClickCount() == 2) {
             Exam exam = proctoringDutyExamsTableView.getSelectionModel().getSelectedItem();
+            ProctorPortForExamRequest portRequest = new ProctorPortForExamRequest(exam.getExamId());
+            Main.sendRequest(portRequest);
+            int port = 0;
+            ProctorPortForExamResponse portResponse = (ProctorPortForExamResponse) Main.receiveResponse();
+            if(portResponse != null) port = portResponse.getProctorPort();
             Timestamp startTime = exam.getDate();
             if(startTime.getTime() - (new Date().getTime()) <= 15*60*1000) { // 15 min into ms.
                 DatagramSocket videoFeedSocket = null;
                 try {
-                    videoFeedSocket = new DatagramSocket(0);
-                    ProctoringRequest request = new ProctoringRequest(exam.getExamId(), videoFeedSocket.getLocalPort(), InetAddress.getLocalHost());
-                    Main.sendRequest(request);
-                    ProctoringResponse response = (ProctoringResponse) Main.receiveResponse();
-                    if(response.isSetupDone()) {
+                    videoFeedSocket = new DatagramSocket(port);
+                    ProctoringResponse response = null;
+                    if(portResponse == null) {
+                        ProctoringRequest request = new ProctoringRequest(exam.getExamId(), videoFeedSocket.getLocalPort(), InetAddress.getLocalHost());
+                        Main.sendRequest(request);
+                        response = (ProctoringResponse) Main.receiveResponse();
+                    }
+                    if(portResponse != null || response != null) {
                         try {
                             FXMLLoader loader = new FXMLLoader(Main.class.getResource("../views/ProctorView.fxml"));
                             Scene scene = new Scene(loader.load(),heyNameLabel.getScene().getWidth(),heyNameLabel.getScene().getHeight());
@@ -385,7 +389,7 @@ public class TeacherHomeController {
                             stage.setMaximized(true);
                             stage.show();
                             ProctorController controller = loader.getController();
-                            controller.callFirst(videoFeedSocket, response.getStudents());
+                            controller.callFirst(videoFeedSocket, portResponse != null ? portResponse.getStudents() : response.getStudents());
                         } catch(IOException e) {
                             e.printStackTrace();
                         }

@@ -8,8 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import main.Main;
-import request.TeacherExamRequest;
 import response.TeacherExamResponse;
 
 import java.io.IOException;
@@ -59,7 +57,7 @@ public class CourseCardLayoutFXMLController {
 
         CourseController controller = loader.getController();
         List<Exam> courseExam = getExamsForCourse(course.getCourseId());
-        controller.callFirst(course.getCourseId(), course.getCourseName(),courseExam);
+        controller.callFirst(course.getCourseId(), course.getCourseName(), course.getCourseCode(),courseExam);
     }
 
     private List<Exam> getExamsForCourse(String courseId) {
