@@ -175,10 +175,11 @@ public class QuestionsScreenController implements Initializable {
     }
 
     public void setData(int proctorPort, List<Question> questions, String examId) {
-        while(this.videoThread == null) {
-            GuiUtil.alert(Alert.AlertType.ERROR, "Could not access you camera. Close all other applications and try again!!");
-            this.videoThread = setupProctoringStuff(proctorPort);
-        }
+        this.videoThread = setupProctoringStuff(proctorPort);
+        while (this.videoThread==null) {
+           GuiUtil.alert(Alert.AlertType.ERROR, "Could not access you camera. Close all other applications and try again!!");
+           this.videoThread = setupProctoringStuff(proctorPort);
+       }
         this.questionList = questions;
         objectiveAnswers = new ArrayList<>();
         answerFile = new File(Main.userRegistrationNumber + "_" + examId + "_subjective_answer.txt");
@@ -219,7 +220,6 @@ public class QuestionsScreenController implements Initializable {
                         String registrationNumber = Main.userRegistrationNumber;
                         byte [] imageByte = UdpUtil.bufferedImageToByteArray(image);
                         byte [] registrationNumberByte = UdpUtil.objectToByteArray(registrationNumber);
-                        System.out.println("image being sent by Registraiton number = " + registrationNumber);
                         Object [] wrapped = {registrationNumberByte, imageByte};
                         UdpUtil.sendObjectToPort(wrapped, proctorPort);
                     } catch (InterruptedException ignored) { break; }

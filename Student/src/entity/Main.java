@@ -32,7 +32,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("../fxml/Login.fxml"));
         try {
             System.out.println("Creating a new connection");
-            socket=new Socket("localhost",6969);
+            socket=new Socket("192.168.0.112",6969);
             System.out.println(socket);
             oos=new ObjectOutputStream(socket.getOutputStream());
             ois=new ObjectInputStream(socket.getInputStream());

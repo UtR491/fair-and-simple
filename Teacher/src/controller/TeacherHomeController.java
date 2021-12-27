@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import entity.Course;
 import entity.Exam;
@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -20,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import util.GuiUtil;
 import main.Main;
 import request.*;
@@ -387,6 +389,13 @@ public class TeacherHomeController {
                             stage.setScene(scene);
                             stage.setTitle("Proctoring - Course: " + exam.getCourseName() + " Exam: " + exam.getTitle());
                             stage.setMaximized(true);
+                            DatagramSocket finalVideoFeedSocket = videoFeedSocket;
+                            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                                @Override
+                                public void handle(WindowEvent event) {
+                                    finalVideoFeedSocket.close();
+                                }
+                            });
                             stage.show();
                             ProctorController controller = loader.getController();
                             controller.callFirst(videoFeedSocket, portResponse != null ? portResponse.getStudents() : response.getStudents());

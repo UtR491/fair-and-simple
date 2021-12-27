@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import entity.Student;
 import javafx.collections.FXCollections;
@@ -80,6 +80,7 @@ public class ProctorController {
         allStudentsListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                System.out.println("STduent queue = " + studentsOnDisplay);
                 if(event.getClickCount() == 2) {
                     System.out.println("We want to see the video of student = " + allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber());
                     if(!studentsOnDisplay.contains(allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber())) {
@@ -119,8 +120,11 @@ public class ProctorController {
             }
 
             private void replaceStudent(Integer incomingRegistrationNumber, String incomingName, Integer outgoing) {
-                studentsOnDisplay.remove();
+                System.out.println("Replacing " + outgoing + " with " + incomingRegistrationNumber);
+                System.out.println("Queue just before removing the outgoing person -> " + studentsOnDisplay);
+                System.out.println("Queue just after removing the outgoing person -> " + studentsOnDisplay);
                 studentsOnDisplay.add(incomingRegistrationNumber);
+                System.out.println("Queue just atfter adding the incoming person -> " + studentsOnDisplay);
                 Pair<Label, ImageView> p = registrationNumberImageWindowMap.get(outgoing);
                 p.getKey().setText(String.format("%s (%s)", incomingName, incomingRegistrationNumber));
                 registrationNumberImageWindowMap.remove(outgoing);
