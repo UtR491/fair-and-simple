@@ -200,7 +200,7 @@ public class RequestIdentifier implements Runnable{
             }
             else if(request instanceof Warning) {
                 SendMessageRequestHandler sendMessageRequestHandler = new SendMessageRequestHandler(Server.getConnection(), oos, (Message) request);
-                sendMessageRequestHandler.sendResponse(userID);
+//                sendMessageRequestHandler.sendResponse(userID);
                 // Sends the message to every connected client from the course in which the message was sent
                 sendMessageRequestHandler.sendWarningToRecipient((Warning)request);
             }
@@ -245,6 +245,10 @@ public class RequestIdentifier implements Runnable{
             } else if(request instanceof ProctorPortForExamRequest) {
                 ProctorPortForExamRequestHandler handler = new ProctorPortForExamRequestHandler(Server.getConnection(), oos, (ProctorPortForExamRequest) request);
                 handler.sendResponse(userID);
+            }
+            else if(request instanceof CheckProctorJoinedRequest){
+                CheckProctorJoinedRequestHandler checkProctorJoinedRequestHandler=new CheckProctorJoinedRequestHandler(Server.getConnection(),oos,(CheckProctorJoinedRequest)request);
+                checkProctorJoinedRequestHandler.sendResponse(userID);
             }
             else{
                 Server.sendResponse(oos, null);

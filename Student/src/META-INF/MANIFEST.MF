@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: entity.Launcher
+Class-Path: slf4j-api-1.7.2.jar jfoenix-8.0.8.jar webcam-capture-0.3.12.
+ jar controlsfx-8.40.11.jar bridj-0.7.0.jar
+
