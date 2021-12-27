@@ -41,8 +41,6 @@ public class LoginRequestHandler extends RequestHandler {
                 preparedStatement.setString(1,loginRequest.getUsername());
                 preparedStatement.execute();
             }
-            System.out.println("Wassssupppp\n" + resultSet.getString(StudentTable.COLUMN_FIRST_NAME));
-            System.out.println("Sending = " +  response);
             try {
                 oos.writeObject(response);
                 oos.flush();

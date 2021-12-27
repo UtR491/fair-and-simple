@@ -239,6 +239,10 @@ public class RequestIdentifier implements Runnable{
                 AddStudentRequestHandler addStudentRequestHandler=new AddStudentRequestHandler(Server.getConnection(),oos,(AddStudentRequest)request);
                 addStudentRequestHandler.sendResponse(userID);
             }
+            else if(request instanceof CheckProctorJoinedRequest){
+                CheckProctorJoinedRequestHandler checkProctorJoinedRequestHandler=new CheckProctorJoinedRequestHandler(Server.getConnection(),oos,(CheckProctorJoinedRequest)request);
+                checkProctorJoinedRequestHandler.sendResponse(userID);
+            }
             else{
                 Server.sendResponse(oos, null);
             }
