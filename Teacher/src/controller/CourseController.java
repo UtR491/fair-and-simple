@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import entity.*;
 import javafx.collections.FXCollections;
