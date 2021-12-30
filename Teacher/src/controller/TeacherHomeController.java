@@ -140,7 +140,7 @@ public class TeacherHomeController {
         Stage stage= (Stage) changePasswordButton.getScene().getWindow();
         Scene scene = null;
         try {
-            scene=new Scene(loader.load());
+            scene=new Scene(loader.load(), changePasswordButton.getScene().getWidth(), changePasswordButton.getScene().getHeight());
         } catch (IOException e) {
             e.printStackTrace();
         }
